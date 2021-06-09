@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "allowJs": true,
+        "target": "es5",
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "esModuleInterop": true
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "~*": ["./*"]
+    },
+    "parcelTsPluginOptions": {
+        // If true type-checking is disabled
+        "transpileOnly": false
+    }
+}
