@@ -6,6 +6,14 @@ import { renderFrame } from './core/render/render'
 
 // Initialize physics engine
 
+const engine = Physics.Engine.create()
+const world = engine.world
+engine.world.gravity.x = 0
+engine.world.gravity.y = 0
+
+const runner = Physics.Runner.create()
+Physics.Runner.run(runner, engine)
+
 // Initial custom state
 
 const state = {
