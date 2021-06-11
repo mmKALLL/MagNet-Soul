@@ -45,14 +45,9 @@ const physicsSystem = System.create<MyState>((game, time) => {
 
 // Game loop
 
-document.addEventListener('mousemove', (evt) => {
-  mouse.position.x = evt.x
-  mouse.position.y = evt.y
-})
-
 const update = (game: Game.GameState<MyState>, time: Time) => {
   // ScoreSystem.update(game, time)
-
+  mouse.position = game.input.mouse.position
   physicsSystem.update(game, time)
   // console.log(time)
   // console.log(game)
@@ -60,7 +55,7 @@ const update = (game: Game.GameState<MyState>, time: Time) => {
 
 const mouse = Physics.Mouse.create(document.body)
 const mouseConstraint = Physics.MouseConstraint.create(engine, {
-  mouse,
+  mouse: mouse,
 })
 
 Physics.World.add(world, mouseConstraint)
