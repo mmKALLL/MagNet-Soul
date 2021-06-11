@@ -27,10 +27,36 @@ const gameState = Game.create<MyState>(state)
 
 // How to use components
 
-const engine = Physics.Engine.create()
-const world = engine.world
-engine.world.gravity.x = 0
-engine.world.gravity.y = 0
+const alice: Entity.ID = state.entities.create()
+state.physicsBodies.set(
+  alice,
+  Physics.Bodies.rectangle(5, 300, 100, 200, {
+    friction: 0.1,
+    frictionAir: 0.065,
+    frictionStatic: 0.9,
+    restitution: 0.4,
+  })
+)
+state.drawables.set(alice, {
+  id: alice,
+  sprite: PIXI.Sprite.from(assets.character),
+})
+
+const bob: Entity.ID = state.entities.create()
+state.physicsBodies.set(
+  bob,
+  Physics.Bodies.rectangle(500, 300, 100, 200, {
+    friction: 0.1,
+    frictionAir: 0.01,
+    restitution: 0.8,
+  })
+)
+state.drawables.set(bob, { id: bob, sprite: PIXI.Sprite.from(assets.character) })
+state.drawables.all().forEach((d) => {
+  d.sprite.anchor.set(0.5)
+  d.sprite.pivot.set(0.5)
+})
+
 
 const runner = Physics.Runner.create()
 Physics.Runner.run(runner, engine)
