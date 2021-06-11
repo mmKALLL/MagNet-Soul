@@ -1,7 +1,7 @@
-import * as Keyboard from "./keyboard"
-import * as Mouse from "./mouse"
+import * as Keyboard from './keyboard'
+import * as Mouse from './mouse'
 
-export type State = {
+type State = {
   keyboard: Keyboard.State
   mouse: Mouse.State
 }
@@ -9,12 +9,12 @@ export type State = {
 export const create = (): State => {
   return {
     keyboard: {
-      keys: {}
+      keys: {},
     },
     mouse: {
-      position: { x: 0, y: 0},
-      buttons: {}
-    }
+      position: { x: 0, y: 0 },
+      buttons: {},
+    },
   }
 }
 
