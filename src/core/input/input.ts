@@ -1,7 +1,7 @@
 import * as Keyboard from './keyboard'
 import * as Mouse from './mouse'
 
-type State = {
+export type State = {
   keyboard: Keyboard.State
   mouse: Mouse.State
 }
