@@ -1,3 +1,4 @@
+// Default tileset: 26 columns, 16x16 px per tile, ids are 0-indexed from top-left, ordered row by row
 (function(name,data){
  if(typeof onTileMapLoaded === 'undefined') {
   if(typeof TileMaps === 'undefined') TileMaps = {};
