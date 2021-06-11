@@ -1,64 +1,72 @@
-import * as Game from "./core/game/game"
-import { Entity, Component, System } from "./arch/arch"
-import { Time } from "./core/time/time"
-import { Random } from "./core/math/math"
+import * as Game from './core/game/game'
+import { Entity, Component, System } from './arch/arch'
+import { Time } from './core/time/time'
+import Physics from './core/physics/physics'
+import { renderFrame } from './core/render/render'
 
-console.log("Hello world")
+// Initialize physics engine
 
 // Initial custom state
 
 const state = {
   entities: Entity.many(),
-  names: Component.many<string>(),
-  scores: Component.many<number>(),
+  physicsBodies: Component.many<Physics.Body>(),
 }
-type MyState = typeof state
+export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
 
 // How to use components
 
+const engine = Physics.Engine.create()
+const world = engine.world
+engine.world.gravity.x = 0
+engine.world.gravity.y = 0
+
+const runner = Physics.Runner.create()
+Physics.Runner.run(runner, engine)
+
 const alice: Entity.ID = state.entities.create()
-state.names.set(alice, "Alice")
-state.scores.set(alice, 0)
-console.log("Player ", alice, " has name ", state.names.get(alice))
+state.physicsBodies.set(alice, Physics.Bodies.rectangle(5, 300, 100, 200))
 
 const bob: Entity.ID = state.entities.create()
-state.names.set(bob, "Bob")
-state.scores.set(bob, 0)
-console.log("Player ", bob, " has name ", state.names.get(bob))
+state.physicsBodies.set(bob, Physics.Bodies.rectangle(500, 300, 100, 200))
+
+Physics.World.add(world, state.physicsBodies.all())
 
 // How to use systems
 
-const ScoreSystem = System.create<MyState>((game) => {
-  const aliceScore = game.state.scores.get(alice)!
-  const bobScore = game.state.scores.get(bob)!
-  if (aliceScore < bobScore) {
-    game.state.scores.set(alice, Random.integerBetween(1, 100))
-  } else {
-    game.state.scores.set(bob, Random.integerBetween(1, 100))
-  }
-
-  console.log("Alice's score is", game.state.scores.get(alice))
-  console.log("Bob's score is", game.state.scores.get(bob))
+const physicsSystem = System.create<MyState>((game, time) => {
+  const body = game.state.physicsBodies.get(alice)!
+  Physics.Body.setVelocity(
+    body,
+    (time.now - time.start) % 8 < 4 ? { x: 1, y: 0.5 } : { x: -1, y: -0.5 }
+  )
 })
 
 // Game loop
 
+document.addEventListener('mousemove', (evt) => {
+  mouse.position.x = evt.x
+  mouse.position.y = evt.y
+})
+
 const update = (game: Game.GameState<MyState>, time: Time) => {
-  ScoreSystem.update(game, time)
-  console.log(time)
-  console.log(game)
+  // ScoreSystem.update(game, time)
+
+  physicsSystem.update(game, time)
+  // console.log(time)
+  // console.log(game)
 }
 
-const render = () => {}
+const mouse = Physics.Mouse.create(document.body)
+const mouseConstraint = Physics.MouseConstraint.create(engine, {
+  mouse,
+})
+
+Physics.World.add(world, mouseConstraint)
 
 const config: Game.GameRunConfig = {
-  frameRate: 1
+  frameRate: 40,
 }
 
-Game.run(
-  gameState,
-  update,
-  render,
-  config
-)
+Game.run(gameState, update, renderFrame, config)
