@@ -13,7 +13,7 @@ export const run = <T>(
 
   window.setInterval(() => {
     update(state, time)
-    render(state)
+    render(state, time)
     time = Time.getTime(time)
   }, 1000 / config.frameRate)
 }
@@ -36,4 +36,4 @@ export const create = <T>(initial: T): GameState<T> => {
 
 export type GameStateUpdater<T> = (state: GameState<T>, time: Time.Time) => void
 
-export type GameStateRenderer<T> = (state: GameState<T>) => void
+export type GameStateRenderer<T> = (state: GameState<T>, time: Time.Time) => void

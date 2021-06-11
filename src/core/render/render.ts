@@ -28,7 +28,7 @@ const sprites = {
 }
 
 // TODO: Can improve performance by reusing containers instead of recreating everything; this allows Pixi to optimize the rendering
-export const renderFrame: GameStateRenderer<MyState> = (state): void => {
+export const renderFrame: GameStateRenderer<MyState> = (state, time): void => {
   app.stage.removeChildren()
   state.state.physicsBodies.all().forEach((body) => {
     const character = new PIXI.Container()
