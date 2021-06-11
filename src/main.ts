@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import * as Game from './core/game/game'
 import { Entity, Component, System } from './arch/arch'
 import { Time } from './core/time/time'
@@ -19,6 +20,7 @@ Physics.Runner.run(runner, engine)
 const state = {
   entities: Entity.many(),
   physicsBodies: Component.many<Physics.Body>(),
+  drawables: Component.many<{ id: Entity.ID; sprite: PIXI.Sprite }>(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
