@@ -5,11 +5,13 @@ export const run = <T>(
   state: GameState<T>,
   update: GameStateUpdater<T>,
   render: GameStateRenderer<T>,
-  config: GameRunConfig
+  config: GameRunConfig,
+  initialize: (config: GameRunConfig) => void
 ) => {
   let time = Time.getTime()
 
   Input.handleInputs(state.input)
+  initialize(config)
 
   window.setInterval(() => {
     update(state, time)

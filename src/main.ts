@@ -122,4 +122,8 @@ const config: Game.GameRunConfig = {
   frameRate: 40,
 }
 
-Game.run(gameState, update, renderFrame, config)
+const initialize = (config) => {
+  initializeRendering()
+}
+
+Game.run(gameState, update, renderFrame, config, initialize)
