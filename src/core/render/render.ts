@@ -20,6 +20,19 @@ app.renderer.view.style.display = 'block'
 
 document.body.appendChild(app.view)
 
+// Set up the pixel ratio. Super important for getting sharp canvas output on high-DPI displays.
+const setupCanvas = (canvas: HTMLCanvasElement) => {
+  const ctx = app.renderer
+  const width = canvas.width
+  const height = canvas.height
+  const ratio = window.devicePixelRatio
+  canvas.width = width * ratio
+  canvas.height = height * ratio
+  canvas.style.width = width + 'px'
+  canvas.style.height = height + 'px'
+  app.resizeTo = window
+}
+
 const middleX = app.renderer.width / 2
 const middleY = app.renderer.height / 2
 
@@ -28,6 +41,7 @@ const sprites = {
 }
 
 export const initializeRendering = () => {
+  setupCanvas(app.view)
 }
 
 // TODO: Can improve performance by reusing containers instead of recreating everything; this allows Pixi to optimize the rendering
