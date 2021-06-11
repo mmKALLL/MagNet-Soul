@@ -48,12 +48,7 @@ export const initializeRendering = () => {
 export const renderFrame: GameStateRenderer<MyState> = (state, time): void => {
   app.stage.removeChildren()
   state.state.physicsBodies.all().forEach((body) => {
-    const character = new PIXI.Container()
-    character.setTransform(body.position.x, body.position.y, 0.3, 0.3)
-    character.addChild(PIXI.Sprite.from(assets.character))
-    app.stage.addChild(character)
-
-    // Draw position, vertices, and bounds
+    // Draw position, vertices, and bounds for debug
     const graphics = new PIXI.Graphics()
     graphics.lineStyle(2, 0x000000)
     graphics.drawCircle(body.position.x, body.position.y, 5)
@@ -65,5 +60,26 @@ export const renderFrame: GameStateRenderer<MyState> = (state, time): void => {
       body.bounds.max.y - body.bounds.min.y
     )
     app.stage.addChild(graphics)
+  })
+
+  state.state.drawables.all().forEach(({ id, sprite }) => {
+    const body = state.state.physicsBodies.get(id)!
+    const character = new PIXI.Container()
+    const baseScale = 0.3
+    const animLength = 4
+    character.setTransform(
+      body.position.x,
+      body.position.y,
+      // pulse animation, no ease
+      baseScale +
+        0.01 * Math.min(time.now % animLength, animLength / 2) -
+        0.01 * Math.max(time.now % animLength, animLength / 2),
+      baseScale +
+        0.01 * Math.min(time.now % animLength, animLength / 2) -
+        0.01 * Math.max(time.now % animLength, animLength / 2),
+      body.angle
+    )
+    character.addChild(sprite)
+    app.stage.addChild(character)
   })
 }
