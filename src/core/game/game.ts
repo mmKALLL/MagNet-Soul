@@ -1,5 +1,5 @@
-import * as Time from "../time/time"
-import * as Input from "../input/input"
+import * as Time from '../time/time'
+import * as Input from '../input/input'
 
 export const run = <T>(
   state: GameState<T>,
@@ -23,14 +23,14 @@ export type GameRunConfig = {
 }
 
 export type GameState<T> = {
-  state: T,
+  state: T
   input: Input.State
 }
 
 export const create = <T>(initial: T): GameState<T> => {
   return {
     state: initial,
-    input: Input.create()
+    input: Input.create(),
   }
 }
 
