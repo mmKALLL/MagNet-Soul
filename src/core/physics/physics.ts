@@ -1,1 +1,2 @@
-export { default as Physics } from 'matter-js'
+import Matter from 'matter-js'
+export default Matter
