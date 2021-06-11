@@ -3,7 +3,10 @@ import * as Game from './core/game/game'
 import { Entity, Component, System } from './arch/arch'
 import { Time } from './core/time/time'
 import Physics from './core/physics/physics'
-import { renderFrame } from './core/render/render'
+import { renderFrame, initializeRendering } from './core/render/render'
+import { getDirectionVector } from './core/input/input'
+import { assets } from './assets'
+import Vector, { Vectors } from './core/math/vector'
 
 // Initialize physics engine
 
@@ -90,10 +93,11 @@ Physics.World.add(world, state.physicsBodies.all())
 // How to use systems
 
 const physicsSystem = System.create<MyState>((game, time) => {
-  const body = game.state.physicsBodies.get(alice)!
-  Physics.Body.setVelocity(
-    body,
-    (time.now - time.start) % 8 < 4 ? { x: 1, y: 0.5 } : { x: -1, y: -0.5 }
+  const aliceBody = game.state.physicsBodies.get(alice)!
+  Physics.Body.applyForce(
+    aliceBody,
+    aliceBody.position,
+    getDirectionVector(game.input).multiplyScalar(0.08)
   )
 })
 

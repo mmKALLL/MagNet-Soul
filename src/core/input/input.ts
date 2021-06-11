@@ -1,3 +1,4 @@
+import Vector, { Vectors } from '../math/vector'
 import * as Keyboard from './keyboard'
 import * as Mouse from './mouse'
 
@@ -16,6 +17,20 @@ export const create = (): State => {
       buttons: {},
     },
   }
+}
+
+export const getDirectionVector = (state: State) => {
+  return [
+    Keyboard.isDown(state.keyboard, 'ArrowUp') && Vectors.up(),
+    Keyboard.isDown(state.keyboard, 'ArrowRight') && Vectors.right(),
+    Keyboard.isDown(state.keyboard, 'ArrowDown') && Vectors.down(),
+    Keyboard.isDown(state.keyboard, 'ArrowLeft') && Vectors.left(),
+  ]
+    .filter(Boolean)
+    .reduce(
+      (acc: Vector, v: Vector | boolean) => (v as Vector).add(acc),
+      new Vector(0, 0)
+    ) as Vector
 }
 
 export const handleInputs = (state: State) => {
