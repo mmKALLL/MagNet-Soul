@@ -1,4 +1,5 @@
 import Vector from 'victor'
+export default Vector
 
 export { default as Vector } from 'victor'
 
