@@ -57,17 +57,35 @@ state.drawables.all().forEach((d) => {
   d.sprite.pivot.set(0.5)
 })
 
+// URDL, like CSS
+const walls = [
+  state.entities.create(),
+  state.entities.create(),
+  state.entities.create(),
+  state.entities.create(),
+]
 
-const runner = Physics.Runner.create()
-Physics.Runner.run(runner, engine)
+const wallThickness = 20
+const wallParams = [
+  [window.innerWidth, wallThickness, Vectors.up()],
+  [wallThickness, window.innerHeight, Vectors.right()],
+  [window.innerWidth, wallThickness, Vectors.down()],
+  [wallThickness, window.innerHeight, Vectors.left()],
+] as const
 
-const alice: Entity.ID = state.entities.create()
-state.physicsBodies.set(alice, Physics.Bodies.rectangle(5, 300, 100, 200))
+const windowSize = new Vector(window.innerWidth, window.innerHeight)
 
-const bob: Entity.ID = state.entities.create()
-state.physicsBodies.set(bob, Physics.Bodies.rectangle(500, 300, 100, 200))
+walls.forEach((id, index) => {
+  const params = wallParams[index]
+  const position = windowSize.clone().multiply(params[2]).add(windowSize).multiplyScalar(0.5)
+  state.physicsBodies.set(
+    id,
+    Physics.Bodies.rectangle(position.x, position.y, params[0], params[1], { isStatic: true })
+  )
+})
 
 Physics.World.add(world, state.physicsBodies.all())
+// TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
 
 // How to use systems
 
