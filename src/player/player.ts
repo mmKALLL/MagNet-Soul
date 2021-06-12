@@ -25,7 +25,7 @@ export const create = (game: MyState): Entity.ID => {
   })
   game.physicsBodies.set(playerId, body)
   Physics.World.addBody(game.physicsWorld, body)
-  Physics.Body.setPosition(body, new Vector(100, 100)) // debug
+  Physics.Body.setPosition(body, new Vector(100, 120)) // debug
 
   const sprite = PIXI.Sprite.from(assets.character)
   sprite.anchor.set(0.5, 0.5)
