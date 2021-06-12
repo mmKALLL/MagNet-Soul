@@ -64,9 +64,11 @@ const initializeMusic = () => {
 
 const state = {
   renderStage: stage,
+  physicsEngine: engine,
   physicsWorld: world,
   entities: Entity.many(),
   physicsBodies: Component.many<Physics.Body>(),
+  gravity: Component.many<boolean>(),
   sprites: Component.many<PIXI.Container>(),
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
   playerWeapon: PlayerWeapon.initialState(),
@@ -77,6 +79,12 @@ const gameState = Game.create<MyState>(state)
 const windowSize = new Vector(window.innerWidth, window.innerHeight)
 
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
+
+GravitySystem.start(gameState)
+PlayerMovementSystem.start(gameState)
+DrawSpritesSystem.start(gameState)
+CameraSystem.start(gameState)
+PlayerWeaponSystem.start(gameState)
 
 // Game loop
 const update = (game: Game.GameState<MyState>, time: Time) => {

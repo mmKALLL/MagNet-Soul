@@ -6,12 +6,16 @@ import { assets } from '../assets'
 import Vector from '../core/math/vector'
 import { CollisionCategories } from '../collision-categories'
 
+export const bodyType = 'player-bullet'
+
 export const create = (state: MyState, position: Vector, direction: Vector): Entity.ID => {
   const bulletId = state.entities.create()
-  const radius = 4
-  const velocity = 0.001
+  const radius = 2
+  const velocity = 0.0002
 
   const body = Physics.Bodies.circle(position.x, position.y, radius, {
+    type: bodyType,
+    label: bulletId,
     friction: 0,
     frictionAir: 0,
     frictionStatic: 0,
@@ -29,7 +33,7 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
 
   const graphics = new PIXI.Graphics()
   graphics.beginFill(0xFC4404)
-  graphics.drawCircle(0, 0, 2)
+  graphics.drawCircle(0, 0, radius)
   state.sprites.set(bulletId, graphics)
   state.renderStage.addChild(graphics)
 
@@ -42,9 +46,7 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
   // state.sprites.set(bulletId, sprite)
   // state.renderStage.addChild(sprite)
 
-  const adjustedVector = direction.multiplyScalar(velocity)
-  adjustedVector.y = -0.0001
-  Physics.Body.applyForce(body, body.position, adjustedVector)
+  Physics.Body.applyForce(body, body.position, direction.multiplyScalar(velocity))
 
   return bulletId
 }

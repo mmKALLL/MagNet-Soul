@@ -33,6 +33,8 @@ export const create = (game: MyState): Entity.ID => {
   Physics.World.addBody(game.physicsWorld, body)
   Physics.Body.setPosition(body, new Vector(100, 150)) // debug
 
+  game.gravity.set(playerId, true)
+
   const sprite = PIXI.Sprite.from(assets.character)
   sprite.pivot.set(0.5)
   sprite.anchor.set(0.5)
