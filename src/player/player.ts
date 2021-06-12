@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { Entity } from '../arch/arch'
 import { assets } from '../assets'
+import { CollisionCategories } from '../collision-categories'
 import Vector from '../core/math/vector'
 import Physics from '../core/physics/physics'
 import { MyState } from '../main'
@@ -23,10 +24,14 @@ export const create = (game: MyState): Entity.ID => {
     mass: 1,
     inverseMass: 1,
     chamfer: { radius: 5, quality: 10 },
+    collisionFilter: {
+      category: CollisionCategories.player,
+      mask: ~CollisionCategories.player,
+    },
   })
   game.physicsBodies.set(playerId, body)
   Physics.World.addBody(game.physicsWorld, body)
-  Physics.Body.setPosition(body, new Vector(100, 120)) // debug
+  Physics.Body.setPosition(body, new Vector(100, 150)) // debug
 
   const sprite = PIXI.Sprite.from(assets.character)
   sprite.pivot.set(0.5)

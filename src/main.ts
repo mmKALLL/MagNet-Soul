@@ -10,6 +10,9 @@ import { CameraSystem } from './systems/camera-system'
 import { initializeTilemap } from './core/render/tilemap-util'
 import * as Player from './player/player'
 import { PlayerMovementSystem } from './player/player-movement-system'
+import * as PlayerWeapon from './player/player-weapon'
+import { PlayerWeaponSystem } from './player/player-weapon-system'
+import { GravitySystem } from './systems/gravity-system'
 
 // Initialize graphics engine
 
@@ -19,6 +22,8 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 const engine = Physics.Engine.create()
 const world = engine.world
+world.gravity.x = 0
+world.gravity.y = 0
 
 const runner = Physics.Runner.create()
 Physics.Runner.run(runner, engine)
@@ -32,42 +37,22 @@ const state = {
   physicsBodies: Component.many<Physics.Body>(),
   sprites: Component.many<PIXI.Container>(),
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
+  playerWeapon: PlayerWeapon.initialState()
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
 
 const windowSize = new Vector(window.innerWidth, window.innerHeight)
 
-const createTempPlatform = (game: MyState) => {
-  const id = state.entities.create()
-
-  const body = Physics.Bodies.rectangle(0, windowSize.y - 100, 1000, 50, { isStatic: true })
-  state.physicsBodies.set(id, body)
-  Physics.World.add(world, body)
-
-  const graphics = new PIXI.Graphics()
-  graphics.lineStyle(2, 0x000000)
-  graphics.drawCircle(0, 0, 5)
-  graphics.drawRect(
-    0,
-    0,
-    body.bounds.max.x - body.bounds.min.x,
-    body.bounds.max.y - body.bounds.min.y
-  )
-
-  game.renderStage.addChild(graphics)
-  state.sprites.set(id, graphics)
-}
-
-createTempPlatform(gameState.state)
-
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
 
 // Game loop
 const update = (game: Game.GameState<MyState>, time: Time) => {
+  GravitySystem.update(game, time)
   PlayerMovementSystem.update(game, time)
   DrawSpritesSystem.update(game, time)
   CameraSystem.update(game, time)
+  PlayerWeaponSystem.update(game, time)
 }
 
 const config: Game.GameRunConfig = {
