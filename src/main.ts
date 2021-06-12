@@ -3,10 +3,15 @@ import * as Game from './core/game/game'
 import { Entity, Component, System } from './arch/arch'
 import { Time } from './core/time/time'
 import Physics from './core/physics/physics'
-import { renderFrame, initializeRendering, stage } from './core/render/render'
+import { renderFrame, initializeRendering, stage, initializeCamera } from './core/render/render'
 import Vector from './core/math/vector'
 import { DrawSpritesSystem } from './systems/draw-sprites-system'
+import { CameraSystem } from './systems/camera-system'
 import { initializeTilemap } from './core/render/tilemap-util'
+
+// Initialize graphics engine
+
+PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 // Initialize physics engine
 
@@ -25,6 +30,7 @@ const state = {
   entities: Entity.many(),
   physicsBodies: Component.many<Physics.Body>(),
   sprites: Component.many<PIXI.Container>(),
+  cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
@@ -59,6 +65,7 @@ Physics.World.add(world, state.physicsBodies.all())
 
 const update = (game: Game.GameState<MyState>, time: Time) => {
   DrawSpritesSystem.update(game, time)
+  CameraSystem.update(game, time)
 }
 
 const config: Game.GameRunConfig = {
@@ -67,6 +74,7 @@ const config: Game.GameRunConfig = {
 
 const initialize = (config) => {
   initializeTilemap(state)
+  initializeCamera(state)
   initializeRendering()
 }
 

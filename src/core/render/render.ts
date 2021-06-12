@@ -22,6 +22,11 @@ document.body.appendChild(app.view)
 
 export const stage = app.stage
 
+export const initializeCamera = (state: MyState) => {
+  const entity = state.entities.create()
+  state.cameras.set(entity, { isActive: true, position: new PIXI.Rectangle(10, 10, 420, 200) })
+}
+
 // Set up the pixel ratio. Super important for getting sharp canvas output on high-DPI displays.
 const setupCanvas = (canvas: HTMLCanvasElement) => {
   const ctx = app.renderer
@@ -39,6 +44,4 @@ export const initializeRendering = () => {
   setupCanvas(app.view)
 }
 
-export const renderFrame: GameStateRenderer<MyState> = (state, time): void => {
-
-}
+export const renderFrame: GameStateRenderer<MyState> = (state, time): void => {}
