@@ -31,13 +31,14 @@ Physics.Runner.run(runner, engine)
 // Initialize music
 
 const initializeMusic = () => {
+  const defaultVolume = 0.25
   const bgm1first = new Audio(require('./assets/audio/BGM1_first.wav'))
   const bgm1loop = new Audio(require('./assets/audio/BGM1_loop.wav'))
   const bgm2first = new Audio(require('./assets/audio/BGM2_first.wav'))
   const bgm2loop = new Audio(require('./assets/audio/BGM2_loop.wav'))
   const music = [bgm1first, bgm1loop, bgm2first, bgm2loop]
   music.forEach((m) => {
-    m.volume = 0.25
+    m.volume = defaultVolume
   })
   bgm1first.onended = () => bgm1loop.play()
   bgm2first.onended = () => bgm2loop.play()
@@ -47,10 +48,14 @@ const initializeMusic = () => {
   // Set up playing after something has been pressed
   let musicPlaying = false
   const playMusic = () => bgm2first.play()
-  document.addEventListener('keydown', () => {
+  document.addEventListener('keydown', (e) => {
     if (!musicPlaying) {
       playMusic()
       musicPlaying = true
+    }
+    // Toggle music
+    if (e.key === 'm') {
+      music.forEach((m) => (m.volume = m.volume === 0 ? defaultVolume : 0))
     }
   })
 }
