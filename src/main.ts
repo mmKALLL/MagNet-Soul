@@ -13,6 +13,7 @@ import { PlayerMovementSystem } from './player/player-movement-system'
 import * as PlayerWeapon from './player/player-weapon'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
+import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
 
 // Initialize graphics engine
 
@@ -73,6 +74,7 @@ const state = {
   backgrounds: Component.many<{sprite: PIXI.Container, original_x: number, parallaxX: number}>(),
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
   playerWeapon: PlayerWeapon.initialState(),
+  ttl: Component.many<TimeToLive>(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
@@ -94,6 +96,7 @@ const update = (game: Game.GameState<MyState>, time: Time) => {
   DrawSpritesSystem.update(game, time)
   CameraSystem.update(game, time)
   PlayerWeaponSystem.update(game, time)
+  TimeToLiveSystem.update(game, time)
 }
 
 const config: Game.GameRunConfig = {

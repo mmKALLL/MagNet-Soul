@@ -15,7 +15,11 @@ export const PlayerWeaponSystem = System.create<MyState>(
         const playerBody = game.state.physicsBodies.get('player')!
         const position = new Vector(playerBody.position.x, playerBody.position.y)
         const direction = Vectors.right()
-        PlayerBullet.create(game.state, position, direction)
+        const bulletId = PlayerBullet.create(game.state, position, direction)
+        game.state.ttl.set(bulletId, {
+          createdAt: time.now,
+          expiresIn: 5
+        })
       }
     }
   }
