@@ -1,13 +1,14 @@
-export type ID = number
+export type ID = string
 
 export const many = () => {
   const entities: ID[] = []
-  let lastID = 0
+  let lastID = 1000
   return {
     create: (): ID => {
       lastID++
-      entities.push(lastID)
-      return lastID
+      const entityID = lastID.toString()
+      entities.push(entityID)
+      return entityID
     },
     remove: (id: ID): boolean => {
       const index = entities.indexOf(id)
