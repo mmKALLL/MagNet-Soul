@@ -14,7 +14,8 @@ import * as PlayerWeapon from './player/player-weapon'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
 import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
-import { Polarity, PolaritySystem } from './systems/polarity-system'
+import { Polarity, PolaritySystem } from './polarity/polarity-system'
+import * as PolaritySwitcher from './polarity/polarity-switcher'
 
 // Initialize graphics engine
 
@@ -91,6 +92,7 @@ PlayerMovementSystem.start(gameState)
 DrawSpritesSystem.start(gameState)
 CameraSystem.start(gameState)
 PlayerWeaponSystem.start(gameState)
+PolaritySystem.start(gameState)
 
 // Game loop
 const update = (game: Game.GameState<MyState>, time: Time) => {
@@ -112,7 +114,8 @@ const initialize = (config) => {
   initializeTilemap(state)
   initializeCamera(state)
   initializeRendering()
-  const playerId = Player.create(state)
+  Player.create(state)
+  PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12)) // Debug
 }
 
 Game.run(gameState, update, renderFrame, config, initialize)

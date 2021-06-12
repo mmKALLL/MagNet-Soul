@@ -4,11 +4,15 @@ import Physics from './core/physics/physics'
 
 export const destroy = (id: Entity.ID, game: MyState) => {
   const body = game.physicsBodies.get(id)
-  body && Physics.World.remove(game.physicsWorld, body)
+  if (body) {
+    Physics.World.remove(game.physicsWorld, body)
+  }
   game.physicsBodies.remove(id)
 
   const sprite = game.sprites.get(id)
-  sprite && game.renderStage.removeChild(sprite)
+  if (sprite) {
+    game.renderStage.removeChild(sprite)
+  }
   game.sprites.remove(id)
 
   game.gravity.remove(id)
@@ -18,4 +22,6 @@ export const destroy = (id: Entity.ID, game: MyState) => {
 
   const polarityEffect = game.polarityEffects.get(id)
   polarityEffect && game.renderStage.removeChild(polarityEffect)
+
+  game.entities.remove(id)
 }

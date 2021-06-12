@@ -38,7 +38,7 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
   playerPolarity && state.polarity.set(bulletId, playerPolarity)
 
   const graphics = new PIXI.Graphics()
-  graphics.beginFill(0xFC4404) // TODO: Change color depending on polarity
+  graphics.beginFill(0x2c2a29)
   graphics.drawCircle(0, 0, radius)
   state.sprites.set(bulletId, graphics)
   state.renderStage.addChild(graphics)

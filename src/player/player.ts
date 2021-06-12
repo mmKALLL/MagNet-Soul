@@ -7,6 +7,7 @@ import Physics from '../core/physics/physics'
 import { MyState } from '../main'
 
 export const ID = 'player'
+export const bodyType = 'player'
 
 export const create = (game: MyState): Entity.ID => {
   const playerId = game.entities.create(ID)
@@ -15,6 +16,7 @@ export const create = (game: MyState): Entity.ID => {
   const height = 20
 
   const body = Physics.Bodies.rectangle(0, 0, width, height, {
+    type: bodyType,
     friction: 0,
     frictionAir: 0.055,
     frictionStatic: 0.5,
