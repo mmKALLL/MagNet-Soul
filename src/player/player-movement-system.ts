@@ -10,11 +10,11 @@ export const PlayerMovementSystem = System.create<MyState>((game, time) => {
   const keyboard = game.input.keyboard
 
   const direction = new Vector(0, 0)
-  if (Keyboard.isDown(keyboard, 'a')) {
+  if (Keyboard.isDown(keyboard, 'a') || Keyboard.isDown(keyboard, 'ArrowLeft')) {
     direction.add(Vectors.left())
   }
 
-  if (Keyboard.isDown(keyboard, 'd')) {
+  if (Keyboard.isDown(keyboard, 'd') || Keyboard.isDown(keyboard, 'ArrowRight')) {
     direction.add(Vectors.right())
   }
 
@@ -24,12 +24,8 @@ export const PlayerMovementSystem = System.create<MyState>((game, time) => {
     direction.multiplyScalar(0.001)
   )
 
-  // TODO: Build proper jump
-  if (Keyboard.isDown(keyboard, ' ') || Keyboard.isDown(keyboard, 'Spacebar')) {
-    Physics.Body.applyForce(
-      body,
-      body.position,
-      Vectors.up().multiplyScalar(0.01)
-    )
+    (Keyboard.isDown(keyboard, ' ') ||
+      Keyboard.isDown(keyboard, 'Spacebar') ||
+      Keyboard.isDown(keyboard, 'ArrowUp')) &&
   }
 })
