@@ -11,7 +11,7 @@ export const bodyType = 'player-bullet'
 export const create = (state: MyState, position: Vector, direction: Vector): Entity.ID => {
   const bulletId = state.entities.create()
   const radius = 2
-  const velocity = 0.0002
+  const velocity = 0.02
 
   const body = Physics.Bodies.circle(position.x, position.y, radius, {
     type: bodyType,
@@ -22,6 +22,8 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
     restitution: 0.3,
     inertia: Infinity,
     inverseInertia: 0,
+    mass: 1,
+    inverseMass: 1,
     collisionFilter: {
       category: CollisionCategories.player,
       mask: ~CollisionCategories.player,
