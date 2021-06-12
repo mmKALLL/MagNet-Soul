@@ -33,4 +33,9 @@ export const PlayerMovementSystem = System.create<MyState>((game, time) => {
   ) {
     Physics.Body.applyForce(body, body.position, Vectors.up().multiplyScalar(0.025))
   }
+
+  // Reset player on fall
+  if (body.position.y > 20 * 16 + 100) {
+    Physics.Body.setPosition(body, { x: 100, y: 150 })
+  }
 })

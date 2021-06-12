@@ -16,14 +16,14 @@ export const create = (game: MyState): Entity.ID => {
 
   const body = Physics.Bodies.rectangle(0, 0, width, height, {
     friction: 0,
-    frictionAir: 0.05,
+    frictionAir: 0.055,
     frictionStatic: 0.5,
     restitution: 0,
     inertia: Infinity,
     inverseInertia: 0,
     mass: 1,
     inverseMass: 1,
-    chamfer: { radius: 5, quality: 10 },
+    chamfer: { radius: 4.5, quality: 10 },
     collisionFilter: {
       category: CollisionCategories.player,
       mask: ~CollisionCategories.player,
