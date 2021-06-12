@@ -5,6 +5,7 @@ import Physics from '../core/physics/physics'
 import { assets } from '../assets'
 import Vector from '../core/math/vector'
 import { CollisionCategories } from '../collision-categories'
+import * as Player from '../player/player'
 
 export const bodyType = 'player-bullet'
 
@@ -33,8 +34,11 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
   state.physicsBodies.set(bulletId, body)
   Physics.World.addBody(state.physicsWorld, body)
 
+  const playerPolarity = state.polarity.get(Player.ID)
+  playerPolarity && state.polarity.set(bulletId, playerPolarity)
+
   const graphics = new PIXI.Graphics()
-  graphics.beginFill(0xFC4404)
+  graphics.beginFill(0xFC4404) // TODO: Change color depending on polarity
   graphics.drawCircle(0, 0, radius)
   state.sprites.set(bulletId, graphics)
   state.renderStage.addChild(graphics)

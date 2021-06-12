@@ -14,6 +14,7 @@ import * as PlayerWeapon from './player/player-weapon'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
 import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
+import { Polarity, PolaritySystem } from './systems/polarity-system'
 
 // Initialize graphics engine
 
@@ -75,6 +76,8 @@ const state = {
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
   playerWeapon: PlayerWeapon.initialState(),
   ttl: Component.many<TimeToLive>(),
+  polarity: Component.many<Polarity>(),
+  polarityEffects: Component.many<PIXI.Graphics>(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
@@ -97,6 +100,7 @@ const update = (game: Game.GameState<MyState>, time: Time) => {
   CameraSystem.update(game, time)
   PlayerWeaponSystem.update(game, time)
   TimeToLiveSystem.update(game, time)
+  PolaritySystem.update(game, time)
 }
 
 const config: Game.GameRunConfig = {
