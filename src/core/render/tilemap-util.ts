@@ -74,18 +74,18 @@ export const initializeTilemap = (state: MyState) => {
         if (data > 0) {
           const id = state.entities.create()
           if (layer.collisions) {
-            state.physicsBodies.set(
-              id,
-              Physics.Bodies.rectangle(
-                (index % mapWidth) * 16,
-                Math.floor(index / mapWidth) * 16,
-                16,
-                16,
-                {
-                  isStatic: true,
-                }
-              )
+            const body = Physics.Bodies.rectangle(
+              (index % mapWidth) * 16,
+              Math.floor(index / mapWidth) * 16,
+              16,
+              16,
+              {
+                isStatic: true,
+                position: { x: (index % mapWidth) * 16, y: Math.floor(index / mapWidth) * 16 },
+              }
             )
+            state.physicsBodies.set(id, body)
+            Physics.World.addBody(state.physicsWorld, body)
           }
 
           const texture = new PIXI.Texture(
