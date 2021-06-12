@@ -27,7 +27,7 @@ export const initializeTilemap = (state: MyState) => {
   const tileset_base = PIXI.BaseTexture.from(assets.tileset1)
   const tileset_clouds = PIXI.BaseTexture.from(assets.tileset2)
   const tileset_background = PIXI.BaseTexture.from(assets.tileset3)
-  const mapWidth = 30
+  const mapWidth = 100
   const tilesetColumns = 26
   const layers: MapLayer[] = [
     {
@@ -47,9 +47,10 @@ export const initializeTilemap = (state: MyState) => {
       objects: mapData.layers[1].objects as any,
       texture: tileset_clouds,
     },
-    { animated: false, collisions: false, data: mapData.layers[2].data, texture: tileset_base },
-    { animated: false, collisions: true, data: mapData.layers[3].data, texture: tileset_base },
-    // { animated: true, collisions: true, data: mapData.layers[4].data, asset: tileset_base },
+    { animated: false, collisions: false, data: mapData.layers[2].data, texture: tileset_base }, // background layer
+    { animated: false, collisions: true, data: mapData.layers[3].data, texture: tileset_base }, // passive layer
+    { animated: false, collisions: false, data: mapData.layers[4].data, texture: tileset_base }, // magnet layer
+    // { animated: true, collisions: true, data: mapData.layers[4].data, texture: icons }, // active layer
   ]
   layers.forEach((layer) => {
     if (layer.objects) {
