@@ -57,8 +57,8 @@ export const initializeTilemap = (state: MyState) => {
         const id = state.entities.create()
         const texture = new PIXI.Texture(layer.texture)
         const sprite = PIXI.Sprite.from(texture)
-        // sprite.y = o.y
-        // sprite.x = o.x
+        sprite.y = o.y
+        sprite.x = o.x
         sprite.width = o.width
         sprite.height = o.height
         sprite.alpha = layer.opacity ?? 1
@@ -67,9 +67,10 @@ export const initializeTilemap = (state: MyState) => {
       })
     }
 
-    const layerData = layer.data // data is 1-indexed
+    const layerData = layer.data
     if (layerData) {
       layerData.forEach((data, index) => {
+        // data is 1-indexed, check that it's a valid value, if so create physics and sprite
         if (data > 0) {
           const id = state.entities.create()
           if (layer.collisions) {
