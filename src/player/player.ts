@@ -10,8 +10,8 @@ export const ID = 'player'
 export const create = (game: MyState): Entity.ID => {
   const playerId = game.entities.create(ID)
 
-  const width = 16 * 2
-  const height = 16 * 2
+  const width = 14
+  const height = 20
 
   const body = Physics.Bodies.rectangle(0, 0, width, height, {
     friction: 0,
@@ -28,8 +28,9 @@ export const create = (game: MyState): Entity.ID => {
   Physics.Body.setPosition(body, new Vector(100, 120)) // debug
 
   const sprite = PIXI.Sprite.from(assets.character)
-  sprite.anchor.set(0.5, 0.5)
-  sprite.width = width
+  sprite.pivot.set(0.5)
+  sprite.anchor.set(0.5)
+  sprite.width = width + 6
   sprite.height = height
   game.sprites.set(playerId, sprite)
   game.renderStage.addChild(sprite)
