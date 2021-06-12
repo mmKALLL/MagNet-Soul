@@ -18,14 +18,14 @@ export const PlayerMovementSystem = System.create<MyState>((game, time) => {
     direction.add(Vectors.right())
   }
 
-  Physics.Body.applyForce(
-    body,
-    body.position,
-    direction.multiplyScalar(0.001)
-  )
+  Physics.Body.applyForce(body, body.position, direction.multiplyScalar(0.0011))
 
+  if (
     (Keyboard.isDown(keyboard, ' ') ||
       Keyboard.isDown(keyboard, 'Spacebar') ||
       Keyboard.isDown(keyboard, 'ArrowUp')) &&
+    Math.abs(body.velocity.y) < 0.01
+  ) {
+    Physics.Body.applyForce(body, body.position, Vectors.up().multiplyScalar(0.028))
   }
 })
