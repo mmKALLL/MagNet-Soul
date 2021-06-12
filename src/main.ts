@@ -28,6 +28,33 @@ world.gravity.y = 0
 const runner = Physics.Runner.create()
 Physics.Runner.run(runner, engine)
 
+// Initialize music
+
+const initializeMusic = () => {
+  const bgm1first = new Audio(require('./assets/audio/BGM1_first.wav'))
+  const bgm1loop = new Audio(require('./assets/audio/BGM1_loop.wav'))
+  const bgm2first = new Audio(require('./assets/audio/BGM2_first.wav'))
+  const bgm2loop = new Audio(require('./assets/audio/BGM2_loop.wav'))
+  const music = [bgm1first, bgm1loop, bgm2first, bgm2loop]
+  music.forEach((m) => {
+    m.volume = 0.25
+  })
+  bgm1first.onended = () => bgm1loop.play()
+  bgm2first.onended = () => bgm2loop.play()
+  bgm1loop.loop = true
+  bgm2loop.loop = true
+
+  // Set up playing after something has been pressed
+  let musicPlaying = false
+  const playMusic = () => bgm2first.play()
+  document.addEventListener('keydown', () => {
+    if (!musicPlaying) {
+      playMusic()
+      musicPlaying = true
+    }
+  })
+}
+
 // Initial custom state
 
 const state = {
@@ -37,7 +64,7 @@ const state = {
   physicsBodies: Component.many<Physics.Body>(),
   sprites: Component.many<PIXI.Container>(),
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
-  playerWeapon: PlayerWeapon.initialState()
+  playerWeapon: PlayerWeapon.initialState(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
@@ -60,6 +87,7 @@ const config: Game.GameRunConfig = {
 }
 
 const initialize = (config) => {
+  initializeMusic()
   initializeTilemap(state)
   initializeCamera(state)
   initializeRendering()
