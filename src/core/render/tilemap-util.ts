@@ -35,7 +35,7 @@ export const initializeTilemap = (state: MyState) => {
         )
       )
       const sprite = PIXI.Sprite.from(texture)
-      state.stage.addChild(sprite)
+      state.renderStage.addChild(sprite)
       state.sprites.set(id, sprite)
     })
   }

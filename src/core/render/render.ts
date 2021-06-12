@@ -40,5 +40,5 @@ export const initializeRendering = () => {
 }
 
 export const renderFrame: GameStateRenderer<MyState> = (state, time): void => {
-
+  console.log(state.state.sprites)
 }

@@ -7,7 +7,7 @@ export const DrawSpritesSystem = System.create<MyState>((game, time) => {
     if (sprite) {
       sprite.position.x = body.position.x
       sprite.position.y = body.position.y
-      sprite.angle = body.angle
+      sprite.rotation = body.angle
     }
   })
 })
