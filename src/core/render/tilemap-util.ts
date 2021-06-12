@@ -81,6 +81,9 @@ export const initializeTilemap = (state: MyState) => {
               16,
               {
                 isStatic: true,
+                slop: 0,
+                friction: 0,
+                frictionAir: 0,
               }
             )
             state.physicsBodies.set(id, body)
