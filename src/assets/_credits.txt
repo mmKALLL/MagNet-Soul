@@ -3,6 +3,7 @@ boxer by irasutoya
 gb-assets by MaterialFuture https://materialfuture.itch.io/gameboy-assets
 skeleton by AstroBob https://astrobob.itch.io/animated-pixel-art-skeleton
 rpg-icon-pack by Kyrise https://kyrise.itch.io/kyrises-free-16x16-rpg-icon-pack
+weapon-and-accessory-icons by Clockwork Raven Studios https://clockworkraven.itch.io/free-rpg-icon-pack-100-weapons-and-po-clockwork-raven-studios
 bright-forest-tiles by Pixel Art World http://yms.main.jp/page-msets/ger1.html
 medieval-enemies by OcO https://oco.itch.io/medieval-fantasy-character-pack
 8-bit-sfx by Joel Steudler

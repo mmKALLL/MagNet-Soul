@@ -1,0 +1,95 @@
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+＝＝＝　Animations Collection II: Quantum Manual　＝＝＝
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+★★★　Foreword　★★★
+
+Thank you for purchasing Animations Collection II: Quantum!
+Please read through the following manual before using the product.
+
+★★★　Pack Content　★★★
+
+〇　Physical Attack Animations × 6
+	30/60FPS_AC2Q001_Slash		10/20 Frames
+	30/60FPS_AC2Q002_Blow		10/20 Frames
+	30/60FPS_AC2Q003_Shot		20/40 Frames
+	30/60FPS_AC2Q004_Cleave		15/30 Frames
+	30/60FPS_AC2Q005_Swipe		10/20 Frames
+	30/60FPS_AC2Q006_Hit		15/30 Frames
+
+〇　Magic Spell Animations × 10
+	30/60FPS_AC2Q017_Barrier	45/90 Frames
+	30/60FPS_AC2Q018_BarrierBreak	45/90 Frames
+	30/60FPS_AC2Q019_Accelerate	50/100 Frames
+	30/60FPS_AC2Q020_Decelerate	50/100 Frames
+	30/60FPS_AC2Q021_Stasis		50/100 Frames
+	30/60FPS_AC2Q022_StarHeal	45/90 Frames
+	30/60FPS_AC2Q023_StarAura	50/100 Frames
+	30/60FPS_AC2Q024_StarFlare	50/100 Frames
+	30/60FPS_AC2Q025_Blackhole	50/100 Frames
+	30/60FPS_AC2Q026_StarBurst	75/150 Frames
+
+〇　Special Skill Animations × 10
+	30/60FPS_AC2Q007_RapidFire	30/60 Frames
+	30/60FPS_AC2Q008_Explosion	30/60 Frames
+	30/60FPS_AC2Q009_Repair		30/60 Frames
+	30/60FPS_AC2Q010_Maintenance	30/60 Frames
+	30/60FPS_AC2Q011_Delete		50/100 Frames
+	30/60FPS_AC2Q012_Scan		30/60 Frames
+	30/60FPS_AC2Q013_Virus		30/60 Frames
+	30/60FPS_AC2Q014_LogicBomb	50/100 Frames
+	30/60FPS_AC2Q015_Bind		30/60 Frames
+	30/60FPS_AC2Q016_Unchained	45/90 Frames
+
+〇　RPG Maker MV Sample Project (Copy-paste the animations in the sample database directly into your project's database)
+*It is highly recommended to use a plugin to change the Animation Framerate of your project for best results
+
+〇　Feedback Form (URL Link)
+
+〇　AC2 Manual (This document)
+
+★★★　Asset Specifications　★★★
+
+〇　All assets are PNG spritesheets
+
+〇　Each frame in the spritesheet is 192x192 pixels (sized for RPG Maker, SRPG Studio), each spritesheet has 5 columns and 2 ~ 20 rows (for a maximum of 100 frames per sheet)
+
+★★★　Terms of Use　★★★
+The following Terms of Use ("Terms") applies to all the assets inclued in this product ("Assets").
+
+1. Dreams Circle and its affiliated creators retain all original ownership, copyright, and other rights associated with this product and these Assets.
+
+2. While these Assets were designed to be used for making games, they can be used without restriction for any other purposes.
+
+3. These Assets can be used for any monetary or non-monetary purposes.
+
+4. These Assets can be freely edited and modified.
+
+5. These Assets may not be resold, published, or distributed in any way other than as an integrated part of the project for which they were used for; this applies to Assets that have been edited or modified as well.
+
+6. When selling, publishing, or distributing any project in which these Assets have been used, it is mandatory to include the following as part of the credits:
+
+Animations Collection II: Quantum © Dreams Circle
+
+7. Dreams Circle and its affiliated creators are not liable for any damages or issues that may arise as a result of using these Assets.
+
+Please make sure you have read and agree to the Terms above. By using these Assets, you are giving consent to these Terms.
+These Terms may change without prior notification.
+
+★★★　Support　★★★
+
+If you have any questions regarding the product, please reach out to us at:
+(Please note that we are only able to address questions pertaining to the product.)
+
+contact@dreams-circle.com
+
+You can also visit our official Twitter account for any updates or announcement regarding Dreams Circle and our Products:
+
+https://twitter.com/dreams_circle
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+＝＝＝　Animations Collection II: Quantum Manual　＝＝＝
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+©　Dreams Circle
