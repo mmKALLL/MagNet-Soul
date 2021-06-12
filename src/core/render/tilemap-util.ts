@@ -12,6 +12,7 @@ export type Map = {
 }
 
 export type MapLayer = {
+  name?: string
   opacity?: number
   background?: boolean // use entire image
   parallaxX?: number
@@ -34,10 +35,12 @@ export const initializeTilemap = (state: MyState) => {
       background: true,
       animated: false,
       collisions: false,
+      // parallaxX: 0.02,
       objects: mapData.layers[0].objects as any,
       texture: tileset_background,
     },
     {
+      name: 'clouds',
       opacity: mapData.layers[1].opacity,
       parallaxX: mapData.layers[1].parallaxx,
       parallaxY: mapData.layers[1].parallaxy,
@@ -65,6 +68,12 @@ export const initializeTilemap = (state: MyState) => {
         sprite.alpha = layer.opacity ?? 1
         state.renderStage.addChild(sprite)
         state.sprites.set(id, sprite)
+        const background_obj = {
+          sprite: sprite,
+          original_x: sprite.x,
+          parallaxX: layer.parallaxX ?? 0
+        }
+        state.backgrounds.set(id, background_obj)
       })
     }
 

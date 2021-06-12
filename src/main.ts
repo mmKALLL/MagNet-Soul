@@ -70,6 +70,7 @@ const state = {
   physicsBodies: Component.many<Physics.Body>(),
   gravity: Component.many<boolean>(),
   sprites: Component.many<PIXI.Container>(),
+  backgrounds: Component.many<{sprite: PIXI.Container, original_x: number, parallaxX: number}>(),
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
   playerWeapon: PlayerWeapon.initialState(),
 }
