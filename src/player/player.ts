@@ -15,13 +15,14 @@ export const create = (game: MyState): Entity.ID => {
 
   const body = Physics.Bodies.rectangle(0, 0, width, height, {
     friction: 0,
-    frictionAir: 0.055,
+    frictionAir: 0.05,
     frictionStatic: 0.5,
     restitution: 0,
     inertia: Infinity,
     inverseInertia: 0,
     mass: 1,
     inverseMass: 1,
+    chamfer: { radius: 5, quality: 10 },
   })
   game.physicsBodies.set(playerId, body)
   Physics.World.addBody(game.physicsWorld, body)
