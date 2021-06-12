@@ -43,13 +43,14 @@ const createTempPlatform = (game: MyState) => {
 
   const body = Physics.Bodies.rectangle(0, windowSize.y - 100, 1000, 50, { isStatic: true })
   state.physicsBodies.set(id, body)
-  Physics.World.add(world,body)
+  Physics.World.add(world, body)
 
   const graphics = new PIXI.Graphics()
   graphics.lineStyle(2, 0x000000)
   graphics.drawCircle(0, 0, 5)
   graphics.drawRect(
-    0, 0,
+    0,
+    0,
     body.bounds.max.x - body.bounds.min.x,
     body.bounds.max.y - body.bounds.min.y
   )
@@ -59,13 +60,6 @@ const createTempPlatform = (game: MyState) => {
 }
 
 createTempPlatform(gameState.state)
-
-const playerId = Player.create(state)
-const initializePlayer = () => {
-  const body = state.physicsBodies.get(playerId)!
-  Physics.Body.setPosition(body, new Vector(100, 400))
-}
-initializePlayer()
 
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
 
@@ -84,6 +78,7 @@ const initialize = (config) => {
   initializeTilemap(state)
   initializeCamera(state)
   initializeRendering()
+  const playerId = Player.create(state)
 }
 
 Game.run(gameState, update, renderFrame, config, initialize)
