@@ -6,6 +6,7 @@ import Physics from './core/physics/physics'
 import { renderFrame, initializeRendering, stage } from './core/render/render'
 import Vector from './core/math/vector'
 import { DrawSpritesSystem } from './systems/draw-sprites-system'
+import { initializeTilemap } from './core/render/tilemap-util'
 
 // Initialize physics engine
 
@@ -65,7 +66,7 @@ const config: Game.GameRunConfig = {
 }
 
 const initialize = (config) => {
-  // initializeTilemap(state)
+  initializeTilemap(state)
   initializeRendering()
 }
 
