@@ -4,11 +4,16 @@ export const many = () => {
   const entities: ID[] = []
   let lastID = 1000
   return {
-    create: (): ID => {
-      lastID++
-      const entityID = lastID.toString()
-      entities.push(entityID)
-      return entityID
+    create: (id?: ID): ID => {
+      if (id) {
+        entities.push(id)
+        return id
+      } else {
+        lastID++
+        const entityID = lastID.toString()
+        entities.push(entityID)
+        return entityID
+      }
     },
     remove: (id: ID): boolean => {
       const index = entities.indexOf(id)

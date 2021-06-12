@@ -7,8 +7,8 @@ import { assets } from '../../assets'
 export type Map = {
   mapWidth: number // in tiles
   mapHeight: number
-  tileWidth: number // in pixels
-  tileHeight: number
+  tileSize: PIXI.Point // in pixels
+  startPosition: PIXI.Point
 }
 
 export type MapLayer = {
@@ -38,10 +38,13 @@ export const initializeTilemap = (state: MyState) => {
       texture: tileset_background,
     },
     {
+      opacity: mapData.layers[1].opacity,
+      parallaxX: mapData.layers[1].parallaxx,
+      parallaxY: mapData.layers[1].parallaxy,
       background: true,
       animated: false,
       collisions: false,
-      data: mapData.layers[1].objects as any,
+      objects: mapData.layers[1].objects as any,
       texture: tileset_clouds,
     },
     { animated: false, collisions: false, data: mapData.layers[2].data, texture: tileset_base },
@@ -59,7 +62,7 @@ export const initializeTilemap = (state: MyState) => {
         sprite.width = o.width
         sprite.height = o.height
         sprite.alpha = layer.opacity ?? 1
-        state.stage.addChild(sprite)
+        state.renderStage.addChild(sprite)
         state.sprites.set(id, sprite)
       })
     }
@@ -94,7 +97,7 @@ export const initializeTilemap = (state: MyState) => {
             )
           )
           const sprite = PIXI.Sprite.from(texture)
-          state.stage.addChild(sprite)
+          state.renderStage.addChild(sprite)
           state.sprites.set(id, sprite)
         }
       })

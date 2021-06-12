@@ -8,6 +8,8 @@ import Vector from './core/math/vector'
 import { DrawSpritesSystem } from './systems/draw-sprites-system'
 import { CameraSystem } from './systems/camera-system'
 import { initializeTilemap } from './core/render/tilemap-util'
+import * as Player from './player/player'
+import { PlayerMovementSystem } from './player/player-movement-system'
 
 // Initialize graphics engine
 
@@ -17,8 +19,6 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 const engine = Physics.Engine.create()
 const world = engine.world
-engine.world.gravity.x = 0
-engine.world.gravity.y = 0
 
 const runner = Physics.Runner.create()
 Physics.Runner.run(runner, engine)
@@ -26,7 +26,8 @@ Physics.Runner.run(runner, engine)
 // Initial custom state
 
 const state = {
-  stage: stage,
+  renderStage: stage,
+  physicsWorld: world,
   entities: Entity.many(),
   physicsBodies: Component.many<Physics.Body>(),
   sprites: Component.many<PIXI.Container>(),
@@ -42,28 +43,35 @@ const createTempPlatform = (game: MyState) => {
 
   const body = Physics.Bodies.rectangle(0, windowSize.y - 100, 1000, 50, { isStatic: true })
   state.physicsBodies.set(id, body)
+  Physics.World.add(world,body)
 
   const graphics = new PIXI.Graphics()
   graphics.lineStyle(2, 0x000000)
+  graphics.drawCircle(0, 0, 5)
   graphics.drawRect(
-    body.bounds.min.x,
-    body.bounds.min.y,
+    0, 0,
     body.bounds.max.x - body.bounds.min.x,
     body.bounds.max.y - body.bounds.min.y
   )
 
-  game.stage.addChild(graphics)
+  game.renderStage.addChild(graphics)
   state.sprites.set(id, graphics)
 }
 
 createTempPlatform(gameState.state)
 
-Physics.World.add(world, state.physicsBodies.all())
+const playerId = Player.create(state)
+const initializePlayer = () => {
+  const body = state.physicsBodies.get(playerId)!
+  Physics.Body.setPosition(body, new Vector(100, 400))
+}
+initializePlayer()
+
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
 
 // Game loop
-
 const update = (game: Game.GameState<MyState>, time: Time) => {
+  PlayerMovementSystem.update(game, time)
   DrawSpritesSystem.update(game, time)
   CameraSystem.update(game, time)
 }
