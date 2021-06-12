@@ -75,13 +75,12 @@ export const initializeTilemap = (state: MyState) => {
           const id = state.entities.create()
           if (layer.collisions) {
             const body = Physics.Bodies.rectangle(
-              (index % mapWidth) * 16,
-              Math.floor(index / mapWidth) * 16,
+              (index % mapWidth) * 16 + 8,
+              Math.floor(index / mapWidth) * 16 + 8,
               16,
               16,
               {
                 isStatic: true,
-                position: { x: (index % mapWidth) * 16, y: Math.floor(index / mapWidth) * 16 },
               }
             )
             state.physicsBodies.set(id, body)
@@ -98,6 +97,7 @@ export const initializeTilemap = (state: MyState) => {
             )
           )
           const sprite = PIXI.Sprite.from(texture)
+          sprite.anchor.set(0.5)
           state.renderStage.addChild(sprite)
           state.sprites.set(id, sprite)
         }
