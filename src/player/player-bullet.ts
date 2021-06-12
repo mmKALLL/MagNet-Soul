@@ -27,17 +27,24 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
   state.physicsBodies.set(bulletId, body)
   Physics.World.addBody(state.physicsWorld, body)
 
-  const sprite = PIXI.Sprite.from(assets.ring46)
-  sprite.width = 8
-  sprite.height = 8
-  sprite.pivot.set(0.5)
-  sprite.anchor.set(0.5)
-  state.sprites.set(bulletId, sprite)
-  state.renderStage.addChild(sprite)
+  const graphics = new PIXI.Graphics()
+  graphics.beginFill(0xFC4404)
+  graphics.drawCircle(0, 0, 2)
+  state.sprites.set(bulletId, graphics)
+  state.renderStage.addChild(graphics)
 
-  const adjustedVecotr = direction.multiplyScalar(velocity)
-  adjustedVecotr.y = -0.0001
-  Physics.Body.applyForce(body, body.position, adjustedVecotr)
+  // TODO: use sprite?
+  // const sprite = PIXI.Sprite.from(assets.ring46)
+  // sprite.width = 8
+  // sprite.height = 8
+  // sprite.pivot.set(0.5)
+  // sprite.anchor.set(0.5)
+  // state.sprites.set(bulletId, sprite)
+  // state.renderStage.addChild(sprite)
+
+  const adjustedVector = direction.multiplyScalar(velocity)
+  adjustedVector.y = -0.0001
+  Physics.Body.applyForce(body, body.position, adjustedVector)
 
   return bulletId
 }
