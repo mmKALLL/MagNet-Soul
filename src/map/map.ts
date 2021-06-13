@@ -135,13 +135,7 @@ const loadItemLayer = (state: MyState, map: Map, layer: Layer) => {
   if (layer.objects) {
     layer.objects.forEach((object) => {
       if (object.type.includes('switcher')) {
-        PolaritySwitcher.create(
-          state,
-          new Vector(
-            object.x - 8,
-            object.y - 8
-          )
-        )
+        PolaritySwitcher.create(state, new Vector(object.x - 8, object.y - 8))
       }
     })
   }

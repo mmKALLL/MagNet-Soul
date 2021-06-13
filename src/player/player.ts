@@ -93,7 +93,7 @@ const enemyBulletRepeller = (game: MyState) => {
           const repelForce = new Vector(distanceVector.x, distanceVector.y)
             .normalize()
             .multiplyScalar(-1)
-            .multiplyScalar(0.02 / distance)
+            .multiplyScalar(0.05 / distance)
           Physics.Body.applyForce(otherBody, otherBody.position, repelForce)
         }
       }

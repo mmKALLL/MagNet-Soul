@@ -1,4 +1,4 @@
-import { MyState } from '../main'
+import { initializeScreen, MyState } from '../main'
 import * as System from '../arch/system'
 import Physics from '../core/physics/physics'
 import * as Player from '../player/player'
@@ -12,7 +12,9 @@ export const PlayerMovementSystem = System.create<MyState>(
     const body = game.state.physicsBodies.get(Player.ID)
     const keyboard = game.input.keyboard
 
-    if (!body) { return }
+    if (!body) {
+      return
+    }
 
     if (Math.abs(body.velocity.y) < 0.01) {
       if (game.state.playerAnimState.current != 'idle') {
@@ -41,12 +43,12 @@ export const PlayerMovementSystem = System.create<MyState>(
       (Keyboard.isDown(keyboard, ' ') ||
         Keyboard.isDown(keyboard, 'Spacebar') ||
         Keyboard.isDown(keyboard, 'ArrowUp')) &&
-        Math.abs(body.velocity.y) < 0.01
+      Math.abs(body.velocity.y) < 0.01
     ) {
-      const terrain = game.state.physicsWorld.bodies.filter(body => body.label == 'terrain')
+      const terrain = game.state.physicsWorld.bodies.filter((body) => body.label == 'terrain')
       const belowPlayer = {
         x: body.position.x,
-        y: body.position.y + 11
+        y: body.position.y + 11,
       }
       const terrainBelowPlayer = Physics.Query.point(terrain, belowPlayer)
       if (terrainBelowPlayer.length > 0) {
@@ -57,7 +59,7 @@ export const PlayerMovementSystem = System.create<MyState>(
 
     // Reset player on fall
     if (body.position.y > 20 * 16 + 100) {
-      Physics.Body.setPosition(body, { x: 100, y: 150 })
+      initializeScreen(game.state.currentScreen)
     }
   }
 )
