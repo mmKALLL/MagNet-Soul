@@ -30,6 +30,7 @@ export const initializeTilemap = (state: MyState) => {
   const tileset_clouds = PIXI.BaseTexture.from(assets.tileset2)
   const tileset_background = PIXI.BaseTexture.from(assets.tileset3)
   const mapWidth = 100
+  const mapHeight = 20
   const tilesetColumns = 26
   const layers: MapLayer[] = [
     {
@@ -56,6 +57,7 @@ export const initializeTilemap = (state: MyState) => {
     { animated: false, collisions: false, data: mapData.layers[4].data, texture: tileset_base }, // magnet layer
     // { animated: true, collisions: true, data: mapData.layers[4].data, texture: icons }, // active layer
   ]
+
   layers.forEach((layer) => {
     if (layer.objects) {
       layer.objects.forEach((o) => {
@@ -72,7 +74,7 @@ export const initializeTilemap = (state: MyState) => {
         const background_obj = {
           sprite: sprite,
           original_x: sprite.x,
-          parallaxX: layer.parallaxX ?? 0
+          parallaxX: layer.parallaxX ?? 0,
         }
         state.backgrounds.set(id, background_obj)
       })
@@ -80,45 +82,55 @@ export const initializeTilemap = (state: MyState) => {
 
     const layerData = layer.data
     if (layerData) {
-      layerData.forEach((data, index) => {
-        // data is 1-indexed, check that it's a valid value, if so create physics and sprite
-        if (data > 0) {
-          const id = state.entities.create()
-          if (layer.collisions) {
-            const body = Physics.Bodies.rectangle(
-              (index % mapWidth) * 16 + 8,
-              Math.floor(index / mapWidth) * 16 + 8,
-              16,
-              16,
-              {
-                isStatic: true,
-                slop: 0,
-                friction: 0,
-                frictionAir: 0,
-                collisionFilter: {
-                  category: CollisionCategories.level
-                }
+      // Generate physics bodies for level geometry
+      if (layer.collisions && layer.data) {
+        type Geometry = { x: number; y: number; length: number }
+        let areas = [] as Geometry[]
+        for (let y = 0; y < mapHeight; y++) {
+          const row = layer.data.slice(y * mapWidth, (y + 1) * mapWidth)
+          const newAreas = row.reduce((acc, cur, index) => {
+            if (cur > 0) {
+              // extend the area if previous tile was also a block, otherwise create new one
+              if (row[index - 1] > 0) {
+                acc[acc.length - 1].length += 1
+              } else {
+                acc.push({ x: index, y, length: 1 })
               }
-            )
-            state.physicsBodies.set(id, body)
-            Physics.World.addBody(state.physicsWorld, body)
-          }
-
-          const texture = new PIXI.Texture(
-            layer.texture,
-            new PIXI.Rectangle(
-              ((data - 1) % tilesetColumns) * 16,
-              Math.floor((data - 1) / tilesetColumns) * 16,
-              16,
-              16
-            )
-          )
-          const sprite = PIXI.Sprite.from(texture)
-          sprite.anchor.set(0.5)
-          state.renderStage.addChild(sprite)
-          state.sprites.set(id, sprite)
+            }
+            return acc
+          }, [] as Geometry[])
+          areas = areas.concat(newAreas)
         }
-      })
+
+        // Create collisions for the level geometry:
+        areas.forEach((area) => {
+          const id = state.entities.create()
+          const { x, y, length } = area
+          const body = Physics.Bodies.rectangle(
+            (x + length / 2) * 16,
+            y * 16 + 8,
+            length * 16,
+            16,
+            {
+              isStatic: true,
+              slop: 0,
+              friction: 0,
+              frictionAir: 0,
+              collisionFilter: {
+                category: CollisionCategories.level,
+              },
+            }
+          )
+          state.physicsBodies.set(id, body)
+          Physics.World.addBody(state.physicsWorld, body)
+        })
+      }
     }
   })
+
+  // Use static image for foreground as perf optimization
+  const id = state.entities.create()
+  const sprite = PIXI.Sprite.from(assets.baseBackground1)
+  state.renderStage.addChild(sprite)
+  state.backgrounds.set(id, { original_x: 0, parallaxX: 0, sprite })
 }
