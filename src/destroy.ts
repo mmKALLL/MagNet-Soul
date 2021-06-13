@@ -1,8 +1,10 @@
 import { Entity } from './arch/arch'
 import { MyState } from './main'
+import { removePolarityEffect } from './polarity/polarity-system'
 import Physics from './core/physics/physics'
 
 export const destroy = (id: Entity.ID, state: MyState) => {
+  state.health.remove(id)
   const body = state.physicsBodies.get(id)
   if (body) {
     Physics.World.remove(state.physicsWorld, body)
@@ -17,11 +19,12 @@ export const destroy = (id: Entity.ID, state: MyState) => {
 
   state.gravity.remove(id)
   state.ttl.remove(id)
-
+  state.cameras.remove(id)
   state.polarity.remove(id)
 
   const polarityEffect = state.polarityEffects.get(id)
-  polarityEffect && state.renderStage.removeChild(polarityEffect)
+
+  polarityEffect && removePolarityEffect(state, id)
 
   state.weapon.remove(id)
 
