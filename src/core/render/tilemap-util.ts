@@ -4,12 +4,15 @@ import Physics from '../physics/physics'
 import { MyState } from '../../main'
 import { assets } from '../../assets'
 import { CollisionCategories } from '../../collision-categories'
+import { Entity } from '../../arch/arch'
 
 export type Map = {
   mapWidth: number // in tiles
   mapHeight: number
   tileSize: PIXI.Point // in pixels
   startPosition: PIXI.Point
+  backgroundIds: Entity.ID // TODO: doesn't work since we also need to remove from Pixi....
+  geometryIds: Entity.ID
 }
 
 export type MapLayer = {
@@ -24,6 +27,8 @@ export type MapLayer = {
   objects?: { x: number; y: number; width: number; height: number }[]
   texture: PIXI.BaseTexture
 }
+
+export const stages: Map[] = []
 
 export const initializeTilemap = (state: MyState) => {
   const tileset_base = PIXI.BaseTexture.from(assets.tileset1)
