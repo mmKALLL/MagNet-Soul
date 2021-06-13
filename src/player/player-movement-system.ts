@@ -1,4 +1,4 @@
-import { playSound, initializeScreen, MyState } from '../main'
+import { playSound, initializeScreen, MyState, config, advanceStage } from '../main'
 import * as System from '../arch/system'
 import Physics from '../core/physics/physics'
 import * as Player from '../player/player'
@@ -76,6 +76,9 @@ export const PlayerMovementSystem = System.create<MyState>(
     // Reset player on fall
     if (body.position.y > 20 * 16 + 100) {
       game.state.health.set('player', 0)
+    }
+    if (body.position.x > config.maps[game.state.currentScreen].width * 16 - 48) {
+      advanceStage(game.state.currentScreen)
     }
   }
 )

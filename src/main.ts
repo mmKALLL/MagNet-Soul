@@ -47,6 +47,10 @@ Physics.Runner.run(runner, engine)
 
 // Initialize music
 
+const bgm1 = new Audio(bgmAssets.bgm1)
+const bgm2 = new Audio(bgmAssets.bgm2)
+const bgm3 = new Audio(bgmAssets.bgm3)
+const music = [bgm1, bgm2, bgm3]
 const defaultVolume = 0.25
 const initializeMusic = () => {
   const addSmoothLoop = (audio: HTMLAudioElement, startTime?: number) => {
@@ -59,10 +63,6 @@ const initializeMusic = () => {
     })
   }
 
-  const bgm1 = new Audio(bgmAssets.bgm1)
-  const bgm2 = new Audio(bgmAssets.bgm2)
-  const bgm3 = new Audio(bgmAssets.bgm3)
-  const music = [bgm1, bgm2, bgm3]
   music.forEach((m) => {
     m.volume = defaultVolume
   })
@@ -97,6 +97,8 @@ const initializeSound = () => {
   const sfx_shot1 = new Audio(sfxAssets.shot1)
   const sfx_shot2 = new Audio(sfxAssets.shot2)
   const sfx_reflect = new Audio(sfxAssets.reflect)
+  const sfx_stageclear = new Audio(sfxAssets.stageclear)
+  const sfx_gameclear = new Audio(sfxAssets.gameclear)
   sounds = {
     damage: sfx_damage,
     item: sfx_item,
@@ -105,6 +107,8 @@ const initializeSound = () => {
     shot1: sfx_shot1,
     shot2: sfx_shot2,
     reflect: sfx_reflect,
+    stageclear: sfx_stageclear,
+    gameclear: sfx_gameclear,
   }
   Object.keys(sounds).forEach((k) => {
     sounds[k].volume = defaultVolume
@@ -113,7 +117,7 @@ const initializeSound = () => {
 
 // Initial custom state
 
-export type GameScreen = 'stage1' | 'stage2' | 'stage3' | 'bossStage' | 'credits'
+export type GameScreen = 'stage1' | 'stage2'
 export type MyPoint = { x: number; y: number }
 
 const state = {
@@ -204,6 +208,18 @@ export const initializeScreen = (screen: GameScreen) => {
   loadMap(state, config.maps[screen]) // TODO: Load based on screen
   initializeCamera(state)
   Player.create(state, config.maps[screen].startPoint)
+}
+
+export const advanceStage = (screen: GameScreen) => {
+  music.forEach((m) => {
+    m.pause()
+    m.currentTime = 0
+  })
+  screen === 'stage1' ? playSound('stageclear') : playSound('gameclear')
+  window.setTimeout(() => {
+    initializeScreen(screen === 'stage1' ? 'stage2' : 'stage1')
+    screen === 'stage1' ? bgm2.play() : bgm1.play()
+  }, 10000)
 }
 
 Game.run(gameState, update, renderFrame, config, initializeGame)
