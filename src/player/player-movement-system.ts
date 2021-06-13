@@ -1,4 +1,11 @@
-import { playSound, initializeScreen, MyState, config, advanceStage, stageClearCleanup } from '../main'
+import {
+  playSound,
+  initializeScreen,
+  MyState,
+  config,
+  advanceStage,
+  stageClearCleanup,
+} from '../main'
 import * as System from '../arch/system'
 import Physics from '../core/physics/physics'
 import * as Player from '../player/player'
@@ -47,6 +54,7 @@ export const PlayerMovementSystem = System.create<MyState>(
     if (
       (Keyboard.isDown(keyboard, ' ') ||
         Keyboard.isDown(keyboard, 'Spacebar') ||
+        Keyboard.isDown(keyboard, 'w') ||
         Keyboard.isDown(keyboard, 'ArrowUp')) &&
       Math.abs(body.velocity.y) < 0.05
     ) {

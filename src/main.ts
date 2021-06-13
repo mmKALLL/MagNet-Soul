@@ -82,7 +82,7 @@ const initializeMusic = () => {
   document.addEventListener('keydown', (e) => {
     playMusic()
     // Toggle music
-    if (e.key === 'm') {
+    if (e.key === 'n') {
       music.forEach((m) => (m.volume = m.volume === 0 ? defaultVolume : 0))
     }
   })
@@ -222,7 +222,6 @@ document.addEventListener('keydown', (e) => {
 export let stageClearCleanup = false
 export const advanceStage = (screen: GameScreen) => {
   if (!stageClearCleanup) {
-    console.log('advanc')
     stageClearCleanup = true
     music.forEach((m) => {
       m.pause()
@@ -231,7 +230,7 @@ export const advanceStage = (screen: GameScreen) => {
     screen === 'stage1' ? playSound('stageclear') : playSound('gameclear')
     window.setTimeout(() => {
       initializeScreen(screen === 'stage1' ? 'stage2' : 'stage1')
-      screen === 'stage1' ? bgm2.play() : bgm1.play()
+      screen === 'stage1' ? bgm2.play() : bgm3.play()
       stageClearCleanup = false
     }, 8000)
   }
