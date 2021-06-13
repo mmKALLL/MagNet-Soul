@@ -26,7 +26,7 @@ export const EnemyWeaponSystem = System.create<MyState>(
             }
             game.state.ttl.set(bulletId, {
               createdAt: time.now,
-              expiresIn: 5
+              expiresIn: 2
             })
           }
         }

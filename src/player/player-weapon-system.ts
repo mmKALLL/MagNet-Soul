@@ -19,7 +19,7 @@ export const PlayerWeaponSystem = System.create<MyState>(
         const bulletId = PlayerBullet.create(game.state, position, direction)
         game.state.ttl.set(bulletId, {
           createdAt: time.now,
-          expiresIn: 5,
+          expiresIn: 2,
         })
       }
     }

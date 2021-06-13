@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import { Entity } from '../arch/arch'
 import { assets } from '../assets'
 import { CollisionCategories } from '../collision-categories'
-import Vector from '../core/math/vector'
+import Vector, { Vectors } from '../core/math/vector'
 import Physics from '../core/physics/physics'
 import { MyState } from '../main'
 
@@ -30,6 +30,9 @@ export const create = (game: MyState): Entity.ID => {
       category: CollisionCategories.player,
       mask: ~CollisionCategories.player,
     },
+    plugin: {
+      attractors: [enemyBulletRepeller(game)]
+    }
   })
   game.physicsBodies.set(playerId, body)
   Physics.World.addBody(game.physicsWorld, body)
@@ -55,4 +58,27 @@ export const create = (game: MyState): Entity.ID => {
   })
 
   return playerId
+}
+
+const enemyBulletRepeller = (game: MyState) => {
+  return (playerBody: Physics.Body, otherBody: Physics.Body) => {
+    if ((Physics as any).Detector.canCollide(playerBody.collisionFilter, otherBody.collisionFilter)) {
+      if (
+        game.entityType.get(otherBody.label) == 'enemy-bullet' &&
+        game.polarity.get(otherBody.label) === game.polarity.get(playerBody.label)
+      ) {
+          const bulletBody = otherBody
+          const distanceVector = Physics.Vector.sub(playerBody.position, bulletBody.position)
+          const distance = Physics.Vector.magnitude(distanceVector)
+
+          if (distance < 30) {
+            const repelForce = new Vector(distanceVector.x, distanceVector.y)
+              .normalize()
+              .multiplyScalar(-1)
+              .multiplyScalar(0.02/distance)
+            Physics.Body.applyForce(otherBody, otherBody.position, repelForce)
+          }
+      }
+    }
+  }
 }

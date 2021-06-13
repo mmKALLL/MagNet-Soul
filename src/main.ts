@@ -144,7 +144,6 @@ const initialize = (config) => {
   // Debug
   PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12))
 
-  Friend.create(state)
   Player.create(state)
 }
 
