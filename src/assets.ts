@@ -6,6 +6,17 @@ export const assets = {
   tileset3: require('./assets/tiles/starry-night-by-quintino/background_sky.png'),
   ring46: require('./assets/sprites/icons/Accessories and Armor - Clockwork Raven Studios/16x16/tile046.png'),
   baseBackground1: require('./assets/tiles/html-game-test.png'),
+
+  player: {
+    positive: {
+      idle: require('./assets/sprites/player_n/player_n0.png'),
+      jump: require('./assets/sprites/player_n/player_nj.png')
+    },
+    negative: {
+      idle: require('./assets/sprites/player_s/player_s0.png'),
+      jump: require('./assets/sprites/player_s/player_sj.png'),
+    }
+  }
 } as const
 
 export const bgmAssets = {

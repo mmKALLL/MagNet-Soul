@@ -32,6 +32,7 @@ export const PolaritySystem = System.create<MyState>(
           } else {
             game.state.polarity.set(Player.ID, 'positive')
           }
+          Player.updateSprite(game.state)
           addPolarityEffect(game, Player.ID)
         }
       }
@@ -43,7 +44,10 @@ export const PolaritySystem = System.create<MyState>(
       const sprite = game.state.sprites.get(id)
       if (polarity && sprite) {
         // Update polarity effect if there's a polarity component
-        const polarityEffect = game.state.polarityEffects.get(id) ?? addPolarityEffect(game, id)
+        let polarityEffect = game.state.polarityEffects.get(id)
+        if (polarityEffect === undefined) {
+          polarityEffect = addPolarityEffect(game, id)
+        }
         if (polarityEffect) {
           polarityEffect.position = sprite.position
         }

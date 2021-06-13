@@ -14,6 +14,12 @@ export const PlayerMovementSystem = System.create<MyState>(
 
     if (!body) { return }
 
+    if (Math.abs(body.velocity.y) < 0.01) {
+      if (game.state.playerAnimState.current != 'idle') {
+        game.state.playerAnimState.next = 'idle'
+      }
+    }
+
     const speedMultiplier = 2.35
     let xSpeed = 0
     if (Keyboard.isDown(keyboard, 'a') || Keyboard.isDown(keyboard, 'ArrowLeft')) {
@@ -44,6 +50,7 @@ export const PlayerMovementSystem = System.create<MyState>(
       }
       const terrainBelowPlayer = Physics.Query.point(terrain, belowPlayer)
       if (terrainBelowPlayer.length > 0) {
+        game.state.playerAnimState.next = 'jump'
         Physics.Body.applyForce(body, body.position, Vectors.up().multiplyScalar(0.025))
       }
     }

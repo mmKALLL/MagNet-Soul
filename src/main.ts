@@ -25,6 +25,7 @@ import { EnemyBulletHitSytem } from './enemy/enemy-bullet-hit-system'
 import { DeathSystem } from './systems/death-system'
 import { loadMap } from './map/map'
 import testMap from './assets/maps/test-map'
+import { AnimStateMachine, PlayerAnimSystem } from './player/player-anim-system'
 import { bgmAssets } from './assets'
 import { destroy } from './destroy'
 
@@ -97,6 +98,7 @@ const state = {
   renderStage: stage,
   physicsEngine: engine,
   physicsWorld: world,
+  playerAnimState: { current: 'idle', next: 'idle' } as AnimStateMachine,
   currentScreen: 'title' as GameScreen,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
@@ -129,6 +131,7 @@ const systems = [
   EnemyWeaponSystem,
   TimeToLiveSystem,
   PolaritySystem,
+  PlayerAnimSystem,
 ]
 
 systems.forEach((system) => system.start(gameState))
