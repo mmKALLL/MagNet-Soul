@@ -3,7 +3,7 @@ import * as System from '../arch/system'
 import { MyState } from '../main'
 
 const zoom = 2.5
-const x_base = 250
+const x_base = 400
 
 export const CameraSystem = System.create<MyState>(
   () => {},
