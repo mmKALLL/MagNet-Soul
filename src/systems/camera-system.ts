@@ -16,8 +16,15 @@ export const CameraSystem = System.create<MyState>(
       const playerX = game.state.physicsBodies.get('player')?.position.x
       if (playerX) {
         const calcX = -zoom * playerX + x_base
-        game.state.renderStage.position.x =
-          clamp(calcX, stage_width * -zoom + window.innerWidth, 0)
+        game.state.renderStage.position.x = clamp(calcX, stage_width * -zoom + window.innerWidth, 0)
+
+        // Adjust non-parallax backgrounds' x value
+        game.state.backgrounds.forEach((id, obj) => {
+          const { sprite, original_x, parallaxX } = obj
+          if (parallaxX === -1) {
+            sprite.position.x = playerX - x_base
+          }
+        })
       }
     })
   }

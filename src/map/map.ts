@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import TemplateMapData from '../assets/maps/stage1'
 import Physics from '../core/physics/physics'
 import { MyState, MyPoint } from '../main'
-import { mapAssets } from '../assets'
+import { mapAssets, enemyTiles } from '../assets'
 import { CollisionCategories } from '../collision-categories'
 import * as Enemy from '../enemy/enemy'
 import * as PolaritySwitcher from '../polarity/polarity-switcher'
@@ -113,10 +113,11 @@ const loadParallaxLayer = (
 const loadEnemyLayer = (state: MyState, map: Map, layer: Layer) => {
   if (layer.objects) {
     layer.objects.forEach((object) => {
+      const type: string | undefined = object.type || enemyTiles.tiles[object.gid - 390]?.type // magic number from stage's gid table
       const prefix = 'enemy-'
-      if (object.type.includes(prefix)) {
-        const direction = object.type.substr(prefix.length, 1)
-        const polarity = object.type.substr(-1)
+      if (type.includes(prefix)) {
+        const direction = type.substr(prefix.length, 1)
+        const polarity = type.substr(-1)
         const enemy = Enemy.create(state, new Vector(object.x + 8, object.y - 8))
         switch (polarity) {
           case 'p':

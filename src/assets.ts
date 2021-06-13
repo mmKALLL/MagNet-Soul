@@ -1,3 +1,5 @@
+import {EnemyData} from './assets/maps/basic_enemy_data'
+
 export const mapAssets = {
   'stage1-back-parallax': require('./assets/tiles/FreeCuteTileset/BG1.png'),
   'stage1-mid-parallax': require('./assets/tiles/FreeCuteTileset/BG2.png'),
@@ -8,6 +10,8 @@ export const mapAssets = {
   'stage2-front-parallax': require('./assets/tiles/starry-night-by-quintino/clouds.png'),
   'stage2-background': require('./assets/maps/stage2.png'),
 }
+
+export const enemyTiles = EnemyData
 
 export const assets = {
   character: require('./assets/sprites/character.png'),
