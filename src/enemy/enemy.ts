@@ -4,6 +4,7 @@ import { CollisionCategories } from '../collision-categories'
 import Vector from '../core/math/vector'
 import Physics from '../core/physics/physics'
 import { MyState } from '../main'
+import { assets } from '../assets'
 
 export const create = (game: MyState, position: Vector): Entity.ID => {
   const id = game.entities.create()
@@ -36,11 +37,13 @@ export const create = (game: MyState, position: Vector): Entity.ID => {
   Physics.World.addBody(game.physicsWorld, body)
   Physics.Body.setPosition(body, position)
 
-  const graphics = new PIXI.Graphics()
-  graphics.beginFill(0xAAAAAA)
-  graphics.drawRect(-width/2, -height/2, width, height)
-  game.sprites.set(id, graphics)
-  game.renderStage.addChild(graphics)
+  const sprite = PIXI.Sprite.from(assets.turretLeft)
+  sprite.width = width
+  sprite.height = height
+  sprite.anchor.set(0.5)
+  sprite.pivot.set(0.5)
+  game.sprites.set(id, sprite)
+  game.renderStage.addChild(sprite)
 
   game.health.set(id, 1)
 
