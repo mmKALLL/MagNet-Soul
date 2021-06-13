@@ -24,6 +24,8 @@ import { EnemyBulletHitSytem } from './enemy/enemy-bullet-hit-system'
 import { DeathSystem } from './systems/death-system'
 import { loadMap } from './map/map'
 import testMap from './assets/maps/test-map'
+import { bgmAssets } from './assets'
+import { destroy } from './destroy'
 
 // Initialize graphics engine
 
@@ -56,27 +58,28 @@ const initializeMusic = () => {
   }
 
   const defaultVolume = 0.25
-  const bgm1first = new Audio(require('./assets/audio/BGM1_first.wav'))
-  const bgm1loop = new Audio(require('./assets/audio/BGM1_loop.wav'))
-  const bgm2first = new Audio(require('./assets/audio/BGM2_first.wav'))
-  const bgm2loop = new Audio(require('./assets/audio/BGM2_loop.wav'))
-  const music = [bgm1first, bgm1loop, bgm2first, bgm2loop]
+  const bgm1 = new Audio(bgmAssets.bgm1)
+  const bgm2 = new Audio(bgmAssets.bgm2)
+  const bgm3 = new Audio(bgmAssets.bgm3)
+  const music = [bgm1, bgm2, bgm3]
   music.forEach((m) => {
     m.volume = defaultVolume
   })
-  bgm1first.onended = () => bgm1loop.play()
-  bgm2first.onended = () => bgm2loop.play()
-  addSmoothLoop(bgm1loop)
-  addSmoothLoop(bgm2loop)
+  addSmoothLoop(bgm1, 7.5)
+  addSmoothLoop(bgm2, 8.275)
+  addSmoothLoop(bgm3, 0)
 
   // Set up playing after something has been pressed
   let musicPlaying = false
-  const playMusic = () => bgm2first.play()
-  document.addEventListener('keydown', (e) => {
+  const playMusic = () => {
     if (!musicPlaying) {
-      playMusic()
+      bgm2.play()
       musicPlaying = true
     }
+  }
+  document.addEventListener('mouseup', (e) => playMusic())
+  document.addEventListener('keydown', (e) => {
+    playMusic()
     // Toggle music
     if (e.key === 'm') {
       music.forEach((m) => (m.volume = m.volume === 0 ? defaultVolume : 0))
@@ -86,10 +89,14 @@ const initializeMusic = () => {
 
 // Initial custom state
 
+export type GameScreen = 'stage1' | 'stage2' | 'stage3' | 'bossStage' | 'credits'
+export type MyPoint = { x: number; y: number }
+
 const state = {
   renderStage: stage,
   physicsEngine: engine,
   physicsWorld: world,
+  currentScreen: 'title' as GameScreen,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
   physicsBodies: Component.many<Physics.Body & { facing?: -1 | 1 }>(),
@@ -101,14 +108,13 @@ const state = {
   ttl: Component.many<TimeToLive>(),
   polarity: Component.many<Polarity>(),
   polarityEffects: Component.many<PIXI.Graphics>(),
-  health: Component.many<number>()
+  health: Component.many<number>(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
 
-const windowSize = new Vector(window.innerWidth, window.innerHeight)
-
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
+const windowSize = new Vector(window.innerWidth, window.innerHeight)
 
 const systems = [
   GravitySystem,
@@ -135,7 +141,7 @@ const config: Game.GameRunConfig = {
   frameRate: 40,
 }
 
-const initialize = (config) => {
+const initializeGame = (config) => {
   initializeMusic()
   loadMap(state, testMap)
   initializeCamera(state)
@@ -144,8 +150,13 @@ const initialize = (config) => {
   // Debug
   PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12))
 
-  Friend.create(state)
-  Player.create(state)
+  initializeScreen('stage2')
 }
 
-Game.run(gameState, update, renderFrame, config, initialize)
+export const initializeScreen = (screen: GameScreen) => {
+  // Friend.create(state)
+  destroy('player', state)
+  Player.create(state, testMap.startPoint)
+}
+
+Game.run(gameState, update, renderFrame, config, initializeGame)

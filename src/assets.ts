@@ -9,10 +9,10 @@ export const assets = {
 } as const
 
 export const bgmAssets = {
-  bgm1: './assets/audio/BGM1(short,07500).mp3',
-  bgm2: './assets/audio/BGM2(short,08275).mp3',
-  bgm3: './assets/audio/BGM3(short,00000).mp3',
-  title: './assets/audio/Title.mp3',
+  bgm1: require('./assets/audio/BGM1(short,07500).mp3'),
+  bgm2: require('./assets/audio/BGM2(short,08275).mp3'),
+  bgm3: require('./assets/audio/BGM3(short,00000).mp3'),
+  title: require('./assets/audio/Title.mp3'),
 }
 
 export const sfxAssets = {
