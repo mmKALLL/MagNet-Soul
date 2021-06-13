@@ -7,12 +7,10 @@ import { renderFrame, initializeRendering, stage, initializeCamera } from './cor
 import Vector from './core/math/vector'
 import { DrawSpritesSystem } from './systems/draw-sprites-system'
 import { CameraSystem } from './systems/camera-system'
-import { initializeTilemap } from './core/render/tilemap-util'
 import * as Player from './player/player'
 import * as Friend from './friend/friend'
 import * as Enemy from './enemy/enemy'
 import { PlayerMovementSystem } from './player/player-movement-system'
-import * as PlayerWeapon from './weapon/weapon'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
 import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
@@ -24,6 +22,8 @@ import { Weapon } from './weapon/weapon'
 import { EnemyWeaponSystem } from './enemy/enemy-weapon-sytem'
 import { EnemyBulletHitSytem } from './enemy/enemy-bullet-hit-system'
 import { DeathSystem } from './systems/death-system'
+import { loadMap } from './map/map'
+import testMap from './assets/maps/test-map'
 
 // Initialize graphics engine
 
@@ -137,7 +137,7 @@ const config: Game.GameRunConfig = {
 
 const initialize = (config) => {
   initializeMusic()
-  initializeTilemap(state)
+  loadMap(state, testMap)
   initializeCamera(state)
   initializeRendering()
 
