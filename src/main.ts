@@ -24,6 +24,7 @@ import { EnemyBulletHitSytem } from './enemy/enemy-bullet-hit-system'
 import { DeathSystem } from './systems/death-system'
 import { loadMap } from './map/map'
 import testMap from './assets/maps/test-map'
+import { AnimStateMachine, PlayerAnimSystem } from './player/player-anim-system'
 
 // Initialize graphics engine
 
@@ -90,6 +91,7 @@ const state = {
   renderStage: stage,
   physicsEngine: engine,
   physicsWorld: world,
+  playerAnimState: { current: 'idle', next: 'idle' } as AnimStateMachine,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
   physicsBodies: Component.many<Physics.Body & { facing?: -1 | 1 }>(),
@@ -101,7 +103,7 @@ const state = {
   ttl: Component.many<TimeToLive>(),
   polarity: Component.many<Polarity>(),
   polarityEffects: Component.many<PIXI.Graphics>(),
-  health: Component.many<number>()
+  health: Component.many<number>(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
@@ -122,6 +124,7 @@ const systems = [
   EnemyWeaponSystem,
   TimeToLiveSystem,
   PolaritySystem,
+  PlayerAnimSystem,
 ]
 
 systems.forEach((system) => system.start(gameState))

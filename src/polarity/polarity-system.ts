@@ -32,6 +32,7 @@ export const PolaritySystem = System.create<MyState>(
           } else {
             game.state.polarity.set(Player.ID, 'positive')
           }
+          Player.updateSprite(game.state)
           addPolarityEffect(game, Player.ID)
         }
       }
