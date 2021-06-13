@@ -1,11 +1,18 @@
+export const mapAssets = {
+  'stage1-back-parallax': require('./assets/tiles/FreeCuteTileset/BG1.png'),
+  'stage1-mid-parallax': require('./assets/tiles/FreeCuteTileset/BG2.png'),
+  'stage1-front-parallax': require('./assets/tiles/FreeCuteTileset/BG3.png'),
+  'stage1-background': require('./assets/maps/stage1.png'),
+  'stage2-back-parallax': require('./assets/tiles/starry-night-by-quintino/background_sky.png'),
+  'stage2-mid-parallax': require('./assets/tiles/starry-night-by-quintino/clouds.png'),
+  'stage2-front-parallax': require('./assets/tiles/starry-night-by-quintino/clouds.png'),
+  'stage2-background': require('./assets/maps/stage2.png'),
+}
+
 export const assets = {
   character: require('./assets/sprites/character.png'),
   polaritySwitcher: require('./assets/sprites/switcher.png'),
-  tileset1: require('./assets/tiles/starry-night-by-quintino/Tileset.png'),
-  tileset2: require('./assets/tiles/starry-night-by-quintino/clouds.png'),
-  tileset3: require('./assets/tiles/starry-night-by-quintino/background_sky.png'),
   ring46: require('./assets/sprites/icons/Accessories and Armor - Clockwork Raven Studios/16x16/tile046.png'),
-  baseBackground1: require('./assets/tiles/html-game-test.png'),
   turretLeft: require('./assets/sprites/turret.png'),
 
   player: {
@@ -17,7 +24,7 @@ export const assets = {
         require('./assets/sprites/player_n/player_n1.png'),
         require('./assets/sprites/player_n/player_n0.png'),
         require('./assets/sprites/player_n/player_n2.png'),
-      ] as any[]
+      ] as any[],
     },
     negative: {
       idle: require('./assets/sprites/player_s/player_s0.png'),
@@ -27,9 +34,9 @@ export const assets = {
         require('./assets/sprites/player_s/player_s1.png'),
         require('./assets/sprites/player_s/player_s0.png'),
         require('./assets/sprites/player_s/player_s2.png'),
-      ] as any[]
-    }
-  }
+      ] as any[],
+    },
+  },
 } as const
 
 export const bgmAssets = {
