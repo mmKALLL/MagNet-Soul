@@ -1,4 +1,4 @@
-import { initializeScreen, MyState } from '../main'
+import { playSound, initializeScreen, MyState } from '../main'
 import * as System from '../arch/system'
 import Physics from '../core/physics/physics'
 import * as Player from '../player/player'
@@ -65,6 +65,7 @@ export const PlayerMovementSystem = System.create<MyState>(
       if (isGrounded) {
         game.state.playerAnimState.next = 'jump'
         Physics.Body.applyForce(body, body.position, Vectors.up().multiplyScalar(0.025))
+        playSound('jump')
       }
     }
 

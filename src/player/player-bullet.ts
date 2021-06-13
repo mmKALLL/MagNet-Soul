@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { Entity } from '../arch/arch'
-import { MyState } from '../main'
+import { playSound, MyState } from '../main'
 import Physics from '../core/physics/physics'
 import { assets } from '../assets'
 import Vector from '../core/math/vector'
@@ -51,6 +51,12 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
   // sprite.anchor.set(0.5)
   // state.sprites.set(bulletId, sprite)
   // state.renderStage.addChild(sprite)
+
+  if (Math.random() * 2 >= 1) {
+    playSound('shot1')
+  } else {
+    playSound('shot2')
+  }
 
   Physics.Body.applyForce(body, body.position, direction.multiplyScalar(velocity))
 

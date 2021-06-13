@@ -23,7 +23,7 @@ import { DeathSystem } from './systems/death-system'
 import { loadMap } from './map/map'
 import testMap from './assets/maps/test-map'
 import { AnimStateMachine, PlayerAnimSystem } from './player/player-anim-system'
-import { bgmAssets } from './assets'
+import { bgmAssets, sfxAssets } from './assets'
 import { destroy } from './destroy'
 import { PolaritySwitcherAnimSystem } from './polarity/polarity-switcher-anim-system'
 import { HealthBar, HealthBarSystem } from './systems/health-bar-system'
@@ -46,6 +46,7 @@ Physics.Runner.run(runner, engine)
 
 // Initialize music
 
+const defaultVolume = 0.25
 const initializeMusic = () => {
   const addSmoothLoop = (audio: HTMLAudioElement, startTime?: number) => {
     audio.loop = true
@@ -57,7 +58,6 @@ const initializeMusic = () => {
     })
   }
 
-  const defaultVolume = 0.25
   const bgm1 = new Audio(bgmAssets.bgm1)
   const bgm2 = new Audio(bgmAssets.bgm2)
   const bgm3 = new Audio(bgmAssets.bgm3)
@@ -84,6 +84,27 @@ const initializeMusic = () => {
     if (e.key === 'm') {
       music.forEach((m) => (m.volume = m.volume === 0 ? defaultVolume : 0))
     }
+  })
+}
+
+let sounds = {};
+const initializeSound = () => {
+  const sfx_damage = new Audio(sfxAssets.damage)
+  const sfx_item = new Audio(sfxAssets.item)
+  const sfx_jump = new Audio(sfxAssets.jump)
+  const sfx_kill = new Audio(sfxAssets.kill)
+  const sfx_shot1 = new Audio(sfxAssets.shot1)
+  const sfx_shot2 = new Audio(sfxAssets.shot2)
+  sounds = {
+    damage: sfx_damage,
+    item: sfx_item,
+    jump: sfx_jump,
+    kill: sfx_kill,
+    shot1: sfx_shot1,
+    shot2: sfx_shot2
+  }
+  Object.keys(sounds).forEach((k) => {
+    sounds[k].volume = defaultVolume
   })
 }
 
@@ -153,8 +174,18 @@ const config: Config = {
 
 const initializeGame = (config) => {
   initializeMusic()
+  initializeSound()
   initializeRendering()
   initializeScreen('stage2')
+}
+
+export const playSound = (name: string) => {
+  const sound = sounds[name]
+  console.log('sound:' + name)
+  if (sound) {
+    sound.load()
+    sound.play()
+  }
 }
 
 export const initializeScreen = (screen: GameScreen) => {

@@ -52,6 +52,12 @@ export const bgmAssets = {
 }
 
 export const sfxAssets = {
-  gameclear: './assets/audio/SE_gameclear.mp3',
-  stageclear: './assets/audio/SE_stageclear.mp3',
+  gameclear: require('./assets/audio/SE_gameclear.mp3'),
+  stageclear: require('./assets/audio/SE_stageclear.mp3'),
+  damage: require('./assets/sfx/damage.m4a'),
+  item: require('./assets/sfx/item.m4a'),
+  jump: require('./assets/sfx/jump.m4a'),
+  kill: require('./assets/sfx/kill.m4a'),
+  shot1: require('./assets/sfx/shot1.m4a'),
+  shot2: require('./assets/sfx/shot2.m4a'),
 }
