@@ -14,8 +14,9 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
   const radius = 2
   const velocity = 0.02
 
-  const body = Physics.Bodies.circle(position.x, position.y, radius, {
+  const body = Physics.Bodies.circle(position.x, position.y, radius + 2, {
     label: bulletId,
+    slop: 0,
     friction: 0,
     frictionAir: 0,
     frictionStatic: 0,
@@ -27,7 +28,7 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
     collisionFilter: {
       category: CollisionCategories.player,
       mask: ~CollisionCategories.player,
-    }
+    },
   })
 
   state.physicsBodies.set(bulletId, body)
