@@ -19,14 +19,26 @@ const playerSpriteFromAsset = (asset: any) => {
   return s
 }
 
+const playerAnimatedSpriteFromAssets = (assets: any[]) => {
+  const anim = new PIXI.AnimatedSprite(assets.map(asset => PIXI.Texture.from(asset)));
+  anim.animationSpeed = 0.1
+  anim.pivot.set(0.5)
+  anim.anchor.set(0.5)
+  anim.width = width + 6
+  anim.height = height
+  return anim
+}
+
 const sprites = {
   positive: {
     idle: playerSpriteFromAsset(assets.player.positive.idle),
-    jump: playerSpriteFromAsset(assets.player.positive.jump)
+    jump: playerSpriteFromAsset(assets.player.positive.jump),
+    walk: playerAnimatedSpriteFromAssets(assets.player.positive.walk)
   },
   negative: {
     idle: playerSpriteFromAsset(assets.player.negative.idle),
-    jump: playerSpriteFromAsset(assets.player.negative.jump)
+    jump: playerSpriteFromAsset(assets.player.negative.jump),
+    walk: playerAnimatedSpriteFromAssets(assets.player.negative.walk)
   }
 }
 
@@ -106,15 +118,23 @@ export const updateSprite = (game: MyState) => {
   if (!container) { return }
   if (!polarity) { return }
 
-  const anim = game.playerAnimState.next
+  const state = game.playerAnimState.next
+  const spritesForPolarity = polarity == 'positive'
+    ? sprites.positive
+    : sprites.negative
+
   switch (game.playerAnimState.next) {
     case 'idle':
-      container.addChild(sprites[polarity][anim])
+      container.addChild(spritesForPolarity.idle)
       break
     case 'jump':
-      container.addChild(sprites[polarity][anim])
+      container.addChild(spritesForPolarity.jump)
       break
     case 'walk':
+      const anim = spritesForPolarity.walk
+      anim.loop = true
+      container.addChild(anim)
+      anim.play()
       break
   }
 }

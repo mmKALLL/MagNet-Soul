@@ -18,6 +18,10 @@ export const PlayerMovementSystem = System.create<MyState>(
       if (game.state.playerAnimState.current != 'idle') {
         game.state.playerAnimState.next = 'idle'
       }
+
+      if (Math.abs(body.velocity.x) > 0.01) {
+        game.state.playerAnimState.next = 'walk'
+      }
     }
 
     const speedMultiplier = 2.35
