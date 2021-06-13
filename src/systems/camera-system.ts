@@ -1,16 +1,16 @@
 import * as PIXI from 'pixi.js'
 import * as System from '../arch/system'
 import { clamp } from '../core/math/numeric'
-import { MyState } from '../main'
+import { MyState, config } from '../main'
 
 const x_base = 400
 const game_height = 320
-const stage_width = 1600
 
 export const CameraSystem = System.create<MyState>(
   () => {},
   (game, time) => {
     game.state.cameras.forEach((id, position) => {
+      const stage_width = config.maps[game.state.currentScreen].width * 16
       const zoom = window.innerHeight / game_height
       game.state.renderStage.scale.set(zoom)
       const playerX = game.state.physicsBodies.get('player')?.position.x
