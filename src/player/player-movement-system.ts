@@ -35,9 +35,17 @@ export const PlayerMovementSystem = System.create<MyState>(
       (Keyboard.isDown(keyboard, ' ') ||
         Keyboard.isDown(keyboard, 'Spacebar') ||
         Keyboard.isDown(keyboard, 'ArrowUp')) &&
-      Math.abs(body.velocity.y) < 0.01
+        Math.abs(body.velocity.y) < 0.01
     ) {
-      Physics.Body.applyForce(body, body.position, Vectors.up().multiplyScalar(0.025))
+      const terrain = game.state.physicsWorld.bodies.filter(body => body.label == 'terrain')
+      const belowPlayer = {
+        x: body.position.x,
+        y: body.position.y + 11
+      }
+      const terrainBelowPlayer = Physics.Query.point(terrain, belowPlayer)
+      if (terrainBelowPlayer.length > 0) {
+        Physics.Body.applyForce(body, body.position, Vectors.up().multiplyScalar(0.025))
+      }
     }
 
     // Reset player on fall

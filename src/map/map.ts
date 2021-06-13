@@ -61,6 +61,7 @@ const loadTerrainLayer = (state: MyState, map: Map, layer: Layer) => {
     areas.forEach((area) => {
       const { x, y, length } = area
       const body = Physics.Bodies.rectangle((x + length / 2) * 16, y * 16 + 8, length * 16, 16, {
+        label: 'terrain',
         isStatic: true,
         slop: 0,
         friction: 0,
