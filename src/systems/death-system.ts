@@ -1,5 +1,5 @@
 import * as System from '../arch/system'
-import { MyState } from '../main'
+import { initializeScreen, MyState } from '../main'
 import { destroy } from '../destroy'
 
 export const DeathSystem = System.create<MyState>(
@@ -7,6 +7,9 @@ export const DeathSystem = System.create<MyState>(
   (game, time) => {
     game.state.health.forEach((id, health) => {
       if (health <= 0) {
+        if ((id = 'player')) {
+          initializeScreen(game.state.currentScreen)
+        }
         destroy(id, game.state)
       }
     })
