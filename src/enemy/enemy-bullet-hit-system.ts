@@ -1,5 +1,5 @@
 import * as System from '../arch/system'
-import { MyState } from '../main'
+import { playSound, MyState } from '../main'
 import { handleCollisions } from '../collision-handler'
 import { destroy } from '../destroy'
 import { playHit } from '../hit-anim'
@@ -17,6 +17,7 @@ export const EnemyBulletHitSytem = System.create<MyState>(
         const otherHealth = game.state.health.get(otherId)
         if (otherHealth) {
           game.state.health.set(otherId, otherHealth - 1)
+          playSound('damage')
         }
       }
     )

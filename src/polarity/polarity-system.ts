@@ -4,7 +4,7 @@ import * as System from '../arch/system'
 import { handleCollisions } from '../collision-handler'
 import { GameState } from '../core/game/game'
 import { destroy } from '../destroy'
-import { MyState } from '../main'
+import { playSound, MyState } from '../main'
 import * as Player from '../player/player'
 
 export type Polarity = 'positive' | 'negative' | 'neutral'
@@ -36,6 +36,7 @@ export const PolaritySystem = System.create<MyState>(
           }
           Player.updateSprite(game.state)
           addPolarityEffect(game, Player.ID)
+          playSound('item')
         }
       }
     )

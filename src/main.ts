@@ -181,7 +181,6 @@ const initializeGame = (config) => {
 
 export const playSound = (name: string) => {
   const sound = sounds[name]
-  console.log('sound:' + name)
   if (sound) {
     sound.load()
     sound.play()
