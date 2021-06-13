@@ -60,4 +60,5 @@ export const sfxAssets = {
   kill: require('./assets/sfx/kill.m4a'),
   shot1: require('./assets/sfx/shot1.m4a'),
   shot2: require('./assets/sfx/shot2.m4a'),
+  reflect: require('./assets/sfx/reflect.m4a'),
 }

@@ -95,13 +95,15 @@ const initializeSound = () => {
   const sfx_kill = new Audio(sfxAssets.kill)
   const sfx_shot1 = new Audio(sfxAssets.shot1)
   const sfx_shot2 = new Audio(sfxAssets.shot2)
+  const sfx_reflect = new Audio(sfxAssets.reflect)
   sounds = {
     damage: sfx_damage,
     item: sfx_item,
     jump: sfx_jump,
     kill: sfx_kill,
     shot1: sfx_shot1,
-    shot2: sfx_shot2
+    shot2: sfx_shot2,
+    reflect: sfx_reflect,
   }
   Object.keys(sounds).forEach((k) => {
     sounds[k].volume = defaultVolume
@@ -179,8 +181,9 @@ const initializeGame = (config) => {
   initializeScreen('stage2')
 }
 
-export const playSound = (name: string) => {
-  const sound = sounds[name]
+export const playSound = (...name: string[]) => {
+  const idx = Math.floor(Math.random() * name.length)
+  const sound = sounds[name[idx]]
   if (sound) {
     sound.load()
     sound.play()
