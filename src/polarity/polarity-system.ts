@@ -11,10 +11,12 @@ export type Polarity = 'positive' | 'negative' | 'neutral'
 
 export const polarityColor = (polarity: Polarity): number => {
   switch (polarity) {
-    case 'positive': return 0xFC4404
-    case 'negative': return 0x6EBFFD
-    case 'neutral': return 0x000000
-
+    case 'positive':
+      return 0xfc4404
+    case 'negative':
+      return 0x6ebffd
+    case 'neutral':
+      return 0x000000
   }
 }
 
@@ -26,7 +28,7 @@ export const PolaritySystem = System.create<MyState>(
       (polaritySwitcher, other) => {
         if (game.state.entityType.get(other.label) == 'player') {
           destroy(polaritySwitcher.label, game.state)
-          removePolarityEffect(game, Player.ID)
+          removePolarityEffect(game.state, Player.ID)
           if (game.state.polarity.get(Player.ID) == 'positive') {
             game.state.polarity.set(Player.ID, 'negative')
           } else {
@@ -39,7 +41,7 @@ export const PolaritySystem = System.create<MyState>(
     )
   },
   (game, time) => {
-    game.state.entities.all().forEach((id => {
+    game.state.entities.all().forEach((id) => {
       const polarity = game.state.polarity.get(id)
       const sprite = game.state.sprites.get(id)
       if (polarity && sprite) {
@@ -53,18 +55,21 @@ export const PolaritySystem = System.create<MyState>(
         }
       } else {
         // Remove the polarity effect if there's no component
-        removePolarityEffect(game, id)
+        removePolarityEffect(game.state, id)
       }
-    }))
+    })
   }
 )
 
-const removePolarityEffect = (game: GameState<MyState>, id: Entity.ID) => {
-  const polarityEffect = game.state.polarityEffects.get(id)
-  polarityEffect && game.state.renderStage.removeChild(polarityEffect)
+export const removePolarityEffect = (state: MyState, id: Entity.ID) => {
+  const polarityEffect = state.polarityEffects.get(id)
+  polarityEffect && state.renderStage.removeChild(polarityEffect)
 }
 
-const addPolarityEffect = (game: GameState<MyState>, id: Entity.ID): PIXI.Graphics | undefined => {
+export const addPolarityEffect = (
+  game: GameState<MyState>,
+  id: Entity.ID
+): PIXI.Graphics | undefined => {
   const polarity = game.state.polarity.get(id)
   const sprite = game.state.sprites.get(id)
   if (polarity && polarity != 'neutral' && sprite) {

@@ -1,29 +1,23 @@
 export type ID = string
 
 export const many = () => {
-  const entities: ID[] = []
+  const entities: { [k: string]: true | undefined } = {}
   let lastID = 1000
   return {
     create: (id?: ID): ID => {
       if (id) {
-        entities.push(id)
+        entities[id] = true
         return id
       } else {
         lastID++
         const entityID = lastID.toString()
-        entities.push(entityID)
+        entities[entityID] = true
         return entityID
       }
     },
-    remove: (id: ID): boolean => {
-      const index = entities.indexOf(id)
-      if (index >= 0) {
-        entities.splice(index, 1)
-        return true
-      } else {
-        return false
-      }
+    remove: (id: ID): void => {
+      entities[id] = undefined
     },
-    all: () => entities
+    all: () => Object.keys(entities),
   }
 }

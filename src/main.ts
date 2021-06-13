@@ -51,11 +51,10 @@ Physics.Runner.run(runner, engine)
 const initializeMusic = () => {
   const addSmoothLoop = (audio: HTMLAudioElement, startTime?: number) => {
     audio.loop = true
-    audio.addEventListener('timeupdate', function () {
+    addEventListener('timeupdate', () => {
       var buffer = 0.22
-      if (this.currentTime > this.duration - buffer) {
-        this.currentTime = startTime ?? 0
-        this.play()
+      if (audio.currentTime > audio.duration - buffer) {
+        audio.currentTime = startTime ?? 0
       }
     })
   }
@@ -100,7 +99,7 @@ const state = {
   physicsEngine: engine,
   physicsWorld: world,
   playerAnimState: { current: 'idle', next: 'idle' } as AnimStateMachine,
-  currentScreen: 'title' as GameScreen,
+  currentScreen: 'stage2' as GameScreen,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
   physicsBodies: Component.many<Physics.Body & { facing?: -1 | 1 }>(),
@@ -154,17 +153,23 @@ const config: Config = {
 
 const initializeGame = (config) => {
   initializeMusic()
-  loadMap(state, config.initialMap)
-  initializeCamera(state)
   initializeRendering()
-
   initializeScreen('stage2')
 }
 
 export const initializeScreen = (screen: GameScreen) => {
-  // Friend.create(state)
   destroy('player', state)
-  Player.create(state, testMap.startPoint)
+  state.physicsBodies.forEach((id, _) => destroy(id, state))
+  state.sprites.forEach((id, _) => destroy(id, state))
+  state.backgrounds.forEach((id, _) => destroy(id, state))
+  state.polarity.forEach((id, _) => destroy(id, state))
+  state.polarityEffects.forEach((id, _) => destroy(id, state))
+  state.health.forEach((id, _) => destroy(id, state))
+  state.cameras.forEach((id, _) => destroy(id, state))
+
+  loadMap(state, config.initialMap) // TODO: Load based on screen
+  initializeCamera(state)
+  Player.create(state, config.initialMap.startPoint)
 }
 
 Game.run(gameState, update, renderFrame, config, initializeGame)

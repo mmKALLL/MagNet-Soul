@@ -1,30 +1,33 @@
 import { Entity } from './arch/arch'
 import { MyState } from './main'
+import { removePolarityEffect } from './polarity/polarity-system'
 import Physics from './core/physics/physics'
 
-export const destroy = (id: Entity.ID, game: MyState) => {
-  const body = game.physicsBodies.get(id)
+export const destroy = (id: Entity.ID, state: MyState) => {
+  state.health.remove(id)
+  const body = state.physicsBodies.get(id)
   if (body) {
-    Physics.World.remove(game.physicsWorld, body)
+    Physics.World.remove(state.physicsWorld, body)
   }
-  game.physicsBodies.remove(id)
+  state.physicsBodies.remove(id)
 
-  const sprite = game.sprites.get(id)
+  const sprite = state.sprites.get(id)
   if (sprite) {
-    game.renderStage.removeChild(sprite)
+    state.renderStage.removeChild(sprite)
   }
-  game.sprites.remove(id)
+  state.sprites.remove(id)
 
-  game.gravity.remove(id)
-  game.ttl.remove(id)
+  state.gravity.remove(id)
+  state.ttl.remove(id)
+  state.cameras.remove(id)
+  state.polarity.remove(id)
 
-  game.polarity.remove(id)
+  const polarityEffect = state.polarityEffects.get(id)
 
-  const polarityEffect = game.polarityEffects.get(id)
-  polarityEffect && game.renderStage.removeChild(polarityEffect)
+  polarityEffect && removePolarityEffect(state, id)
 
-  game.weapon.remove(id)
+  state.weapon.remove(id)
 
-  game.entityType.remove(id)
-  game.entities.remove(id)
+  state.entityType.remove(id)
+  state.entities.remove(id)
 }
