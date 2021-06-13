@@ -93,12 +93,12 @@ const initializeMusic = () => {
 export type GameScreen = 'stage1' | 'stage2' | 'stage3' | 'bossStage' | 'credits'
 export type MyPoint = { x: number; y: number }
 
-const initialState = () => ({
+const state = {
   renderStage: stage,
   physicsEngine: engine,
   physicsWorld: world,
   playerAnimState: { current: 'idle', next: 'idle' } as AnimStateMachine,
-  currentScreen: 'title' as GameScreen,
+  currentScreen: 'stage2' as GameScreen,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
   physicsBodies: Component.many<Physics.Body & { facing?: -1 | 1 }>(),
@@ -111,9 +111,7 @@ const initialState = () => ({
   polarity: Component.many<Polarity>(),
   polarityEffects: Component.many<PIXI.Graphics>(),
   health: Component.many<number>(),
-})
-
-let state = initialState()
+}
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
 
@@ -153,17 +151,22 @@ const config: Config = {
 
 const initializeGame = (config) => {
   initializeMusic()
-  loadMap(state, config.initialMap)
-  initializeCamera(state)
   initializeRendering()
-
   initializeScreen('stage2')
 }
 
 export const initializeScreen = (screen: GameScreen) => {
-  // Friend.create(state)
+  destroy('player', state)
+  state.physicsBodies.forEach((id, _) => destroy(id, state))
+  state.sprites.forEach((id, _) => destroy(id, state))
+  state.backgrounds.forEach((id, _) => destroy(id, state))
+  state.polarity.forEach((id, _) => destroy(id, state))
+  state.polarityEffects.forEach((id, _) => destroy(id, state))
+  state.health.forEach((id, _) => destroy(id, state))
+  state.cameras.forEach((id, _) => destroy(id, state))
 
-  state = initialState()
+  loadMap(state, config.initialMap) // TODO: Load based on screen
+  initializeCamera(state)
   Player.create(state, config.initialMap.startPoint)
 }
 
