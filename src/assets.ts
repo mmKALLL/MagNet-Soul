@@ -7,3 +7,15 @@ export const assets = {
   ring46: require('./assets/sprites/icons/Accessories and Armor - Clockwork Raven Studios/16x16/tile046.png'),
   baseBackground1: require('./assets/tiles/html-game-test.png'),
 } as const
+
+export const bgmAssets = {
+  bgm1: './assets/audio/BGM1(short,07500).mp3',
+  bgm2: './assets/audio/BGM2(short,08275).mp3',
+  bgm3: './assets/audio/BGM3(short,00000).mp3',
+  title: './assets/audio/Title.mp3',
+}
+
+export const sfxAssets = {
+  gameclear: './assets/audio/SE_gameclear.mp3',
+  stageclear: './assets/audio/SE_stageclear.mp3',
+}

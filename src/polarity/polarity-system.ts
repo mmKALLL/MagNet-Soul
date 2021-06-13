@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { Entity } from '../arch/arch'
 import * as System from '../arch/system'
-import { handleCollisions } from '../collsition-handler'
+import { handleCollisions } from '../collision-handler'
 import { GameState } from '../core/game/game'
 import { destroy } from '../destroy'
 import { MyState } from '../main'
