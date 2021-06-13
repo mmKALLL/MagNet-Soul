@@ -74,7 +74,7 @@ const initializeMusic = () => {
   let musicPlaying = false
   const playMusic = () => {
     if (!musicPlaying) {
-      bgm2.play()
+      bgm1.play()
       musicPlaying = true
     }
   }
@@ -88,7 +88,7 @@ const initializeMusic = () => {
   })
 }
 
-let sounds = {};
+let sounds = {}
 const initializeSound = () => {
   const sfx_damage = new Audio(sfxAssets.damage)
   const sfx_item = new Audio(sfxAssets.item)
@@ -170,7 +170,7 @@ export type Config = {
   frameRate: number
   maps: { [k: string]: Map }
 }
-const config: Config = {
+export const config: Config = {
   frameRate: 40,
   maps: { stage1, stage2 },
 }
