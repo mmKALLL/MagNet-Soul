@@ -113,7 +113,9 @@ const loadParallaxLayer = (
 const loadEnemyLayer = (state: MyState, map: Map, layer: Layer) => {
   if (layer.objects) {
     layer.objects.forEach((object) => {
-      const type: string | undefined = object.type || enemyTiles.tiles[object.gid - 390]?.type // magic number from stage's gid table
+      const type: string | undefined =
+        object.type ||
+        (enemyTiles.tiles[object.gid - 390]?.type ?? enemyTiles.tiles[object.gid - 805]?.type) // magic number from stage's gid table
       const prefix = 'enemy-'
       if (type.includes(prefix)) {
         const direction = type.substr(prefix.length, 1)
@@ -137,7 +139,7 @@ const loadItemLayer = (state: MyState, map: Map, layer: Layer) => {
     layer.objects.forEach((object) => {
       // if (object.type.includes('switcher')) {
       // To make map design faster, assume all things in the "item" layer are switchers
-      PolaritySwitcher.create(state, new Vector(object.x - 8, object.y - 8))
+      PolaritySwitcher.create(state, new Vector(object.x + 8, object.y - 8))
       // }
     })
   }
