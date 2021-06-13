@@ -10,7 +10,7 @@ import { addHealtBar } from '../systems/health-bar-system'
 export const ID = 'player'
 export const width = 14
 export const height = 20
-const maxHealth = 3
+const maxHealth = 5
 
 const playerSpriteFromAsset = (asset: any) => {
   const s = PIXI.Sprite.from(asset)
