@@ -9,6 +9,7 @@
   module.exports = data;
  }})("test-map",
 { "compressionlevel":-1,
+"name": "stage2",
 "startPoint": {x: 3, y: 16},
  "editorsettings":
     {
@@ -212,7 +213,7 @@
          "visible":true,
          "x":0,
          "y":0
-        }, 
+        },
         {
          "draworder":"topdown",
          "id":10,
@@ -229,7 +230,7 @@
                  "width":16,
                  "x":336,
                  "y":144
-                }, 
+                },
                 {
                  "gid":393,
                  "height":16,
@@ -241,7 +242,7 @@
                  "width":16,
                  "x":544,
                  "y":272
-                }, 
+                },
                 {
                  "gid":393,
                  "height":16,
@@ -253,7 +254,7 @@
                  "width":16,
                  "x":672,
                  "y":80
-                }, 
+                },
                 {
                  "gid":393,
                  "height":16,
