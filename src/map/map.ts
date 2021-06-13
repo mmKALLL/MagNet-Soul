@@ -117,7 +117,7 @@ const loadEnemyLayer = (state: MyState, map: Map, layer: Layer) => {
       if (object.type.includes(prefix)) {
         const direction = object.type.substr(prefix.length, 1)
         const polarity = object.type.substr(-1)
-        const enemy = Enemy.create(state, new Vector(object.x - 8, object.y - 8))
+        const enemy = Enemy.create(state, new Vector(object.x + 8, object.y - 8))
         switch (polarity) {
           case 'p':
             state.polarity.set(enemy, 'positive')

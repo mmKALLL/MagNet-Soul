@@ -4,13 +4,13 @@ import { assets } from '../assets'
 import { CollisionCategories } from '../collision-categories'
 import Vector, { Vectors } from '../core/math/vector'
 import Physics from '../core/physics/physics'
-import { MyState, MyPoint } from '../main'
+import { MyState, MyPoint, playSound } from '../main'
 import { addHealtBar } from '../systems/health-bar-system'
 
 export const ID = 'player'
 export const width = 14
 export const height = 20
-const maxHealth = 3
+const maxHealth = 5
 
 const playerSpriteFromAsset = (asset: any) => {
   const s = PIXI.Sprite.from(asset)
@@ -111,6 +111,7 @@ const enemyBulletRepeller = (game: MyState) => {
             .multiplyScalar(-1)
             .multiplyScalar(0.05 / distance)
           Physics.Body.applyForce(otherBody, otherBody.position, repelForce)
+          playSound('reflect')
         }
       }
     }

@@ -4,7 +4,7 @@ import * as System from '../arch/system'
 import { handleCollisions } from '../collision-handler'
 import { GameState } from '../core/game/game'
 import { destroy } from '../destroy'
-import { MyState } from '../main'
+import { playSound, MyState } from '../main'
 import * as Player from '../player/player'
 
 export type Polarity = 'positive' | 'negative' | 'neutral'
@@ -36,6 +36,7 @@ export const PolaritySystem = System.create<MyState>(
           }
           Player.updateSprite(game.state)
           addPolarityEffect(game, Player.ID)
+          playSound('item')
         }
       }
     )
@@ -73,7 +74,7 @@ export const addPolarityEffect = (
   const polarity = game.state.polarity.get(id)
   const sprite = game.state.sprites.get(id)
   if (polarity && polarity != 'neutral' && sprite) {
-    const radius = sprite.width
+    const radius = Math.abs(sprite.width)
     const polarityEffect = new PIXI.Graphics()
     polarityEffect.beginFill(polarityColor(polarity), 0.5)
     polarityEffect.drawCircle(0, 0, radius)

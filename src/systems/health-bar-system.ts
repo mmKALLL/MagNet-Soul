@@ -35,8 +35,8 @@ export const addHealtBar = (game: MyState, maxHealth: number): HealthBar => {
     container: new PIXI.Container(),
     steps: []
   }
-  const stepSize = 3
-  const spacing = 4
+  const stepSize = 2.5
+  const spacing = 3
   const barWidth = (stepSize + spacing) * maxHealth - spacing
 
   for (let i = 0; i < maxHealth; i += 1) {

@@ -3,14 +3,15 @@ import * as System from '../arch/system'
 import { clamp } from '../core/math/numeric'
 import { MyState } from '../main'
 
-const zoom = 2.5
 const x_base = 400
+const game_height = 320
 const stage_width = 1600
 
 export const CameraSystem = System.create<MyState>(
   () => {},
   (game, time) => {
     game.state.cameras.forEach((id, position) => {
+      const zoom = window.innerHeight / game_height
       game.state.renderStage.scale.set(zoom)
       const playerX = game.state.physicsBodies.get('player')?.position.x
       if (playerX) {
