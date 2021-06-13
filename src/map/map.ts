@@ -7,7 +7,7 @@ import { CollisionCategories } from '../collision-categories'
 import * as Enemy from '../enemy/enemy'
 import Vector from '../core/math/vector'
 
-type Map = typeof TemplateMapData & { startPoint: MyPoint }
+export type Map = typeof TemplateMapData & { startPoint: MyPoint }
 type Layer = typeof TemplateMapData.layers[0]
 
 export const loadMap = (state: MyState, map: Map) => {

@@ -10,6 +10,7 @@ import { CameraSystem } from './systems/camera-system'
 import * as Player from './player/player'
 import * as Friend from './friend/friend'
 import * as Enemy from './enemy/enemy'
+import { Map } from './map/map'
 import { PlayerMovementSystem } from './player/player-movement-system'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
@@ -137,13 +138,18 @@ const update = (game: Game.GameState<MyState>, time: Time) => {
   systems.forEach((system) => system.update(game, time))
 }
 
-const config: Game.GameRunConfig = {
+export type Config = {
+  frameRate: number
+  initialMap: Map
+}
+const config: Config = {
   frameRate: 40,
+  initialMap: testMap,
 }
 
 const initializeGame = (config) => {
   initializeMusic()
-  loadMap(state, testMap)
+  loadMap(state, config.initialMap)
   initializeCamera(state)
   initializeRendering()
 
