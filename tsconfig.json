@@ -12,6 +12,9 @@
     "include": [
         "./src/**/*"
     ],
+    "exclude": [
+        "./src/assets/**/*"
+    ],
     "baseUrl": "./src",
     "paths": {
       "~*": ["./*"]
