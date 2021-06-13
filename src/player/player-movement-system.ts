@@ -9,8 +9,10 @@ import { clamp } from '../core/math/numeric'
 export const PlayerMovementSystem = System.create<MyState>(
   () => {},
   (game, time) => {
-    const body = game.state.physicsBodies.get(Player.ID)!
+    const body = game.state.physicsBodies.get(Player.ID)
     const keyboard = game.input.keyboard
+
+    if (!body) { return }
 
     const speedMultiplier = 2.35
     let xSpeed = 0

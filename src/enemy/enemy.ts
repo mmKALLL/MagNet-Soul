@@ -42,6 +42,8 @@ export const create = (game: MyState, position: Vector): Entity.ID => {
   game.sprites.set(id, graphics)
   game.renderStage.addChild(graphics)
 
+  game.health.set(id, 1)
+
   game.polarity.set(id, 'neutral')
 
   game.weapon.set(id, {

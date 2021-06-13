@@ -45,6 +45,8 @@ export const create = (game: MyState): Entity.ID => {
   game.sprites.set(playerId, sprite)
   game.renderStage.addChild(sprite)
 
+  game.health.set(ID, 3)
+
   game.polarity.set(ID, 'positive')
 
   game.weapon.set(ID, {

@@ -15,7 +15,8 @@ export const DrawSpritesSystem = System.create<MyState>(
         sprite.rotation = body.angle
       }
     })
-    const player_x = game.state.physicsBodies.get('player')!.position.x
+    const player_x = game.state.physicsBodies.get('player')?.position.x
+    if (!player_x) { return }
     game.state.backgrounds.forEach((id, obj) => {
       const { sprite, original_x, parallaxX } = obj
       if (parallaxX > 0) {

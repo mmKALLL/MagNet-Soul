@@ -14,6 +14,10 @@ export const PlayerBulletHitSytem = System.create<MyState>(
         if (game.state.entityType.get(otherId) == 'enemy') {
           if (game.state.polarity.get(bulletId) != game.state.polarity.get(otherId)) {
             // TODO: Reduce enemy health?
+            const enemyHealth = game.state.health.get(otherId)
+            if (enemyHealth) {
+              game.state.health.set(otherId, enemyHealth - 1)
+            }
             destroy(bulletId, game.state)
           }
         }

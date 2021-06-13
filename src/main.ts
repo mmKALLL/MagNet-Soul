@@ -23,6 +23,7 @@ import { PlayerBulletHitSytem } from './player/player-bullet-hit-system'
 import { Weapon } from './weapon/weapon'
 import { EnemyWeaponSystem } from './enemy/enemy-weapon-sytem'
 import { EnemyBulletHitSytem } from './enemy/enemy-bullet-hit-system'
+import { DeathSystem } from './systems/death-system'
 
 // Initialize graphics engine
 
@@ -100,6 +101,7 @@ const state = {
   ttl: Component.many<TimeToLive>(),
   polarity: Component.many<Polarity>(),
   polarityEffects: Component.many<PIXI.Graphics>(),
+  health: Component.many<number>()
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
@@ -110,6 +112,7 @@ const windowSize = new Vector(window.innerWidth, window.innerHeight)
 
 const systems = [
   GravitySystem,
+  DeathSystem,
   PlayerBulletHitSytem,
   EnemyBulletHitSytem,
   PlayerMovementSystem,

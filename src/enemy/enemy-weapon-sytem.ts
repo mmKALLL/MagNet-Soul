@@ -11,8 +11,9 @@ export const EnemyWeaponSystem = System.create<MyState>(
     game.state.weapon.forEach((id, weapon) => {
       if (game.state.entityType.get(id) == 'enemy') {
         if (time.now > weapon.lastTimeFired + weapon.fireRate) {
-          const enemyBody = game.state.physicsBodies.get(id)!
-          const playerBody = game.state.physicsBodies.get(Player.ID)!
+          const enemyBody = game.state.physicsBodies.get(id)
+          const playerBody = game.state.physicsBodies.get(Player.ID)
+          if (!enemyBody || !playerBody) { return }
           const distanceToPlayer = Physics.Vector.magnitude(Physics.Vector.sub(playerBody.position, enemyBody.position))
           if (distanceToPlayer < 200) {
             weapon.lastTimeFired = time.now
