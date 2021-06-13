@@ -9,6 +9,7 @@ import { DrawSpritesSystem } from './systems/draw-sprites-system'
 import { CameraSystem } from './systems/camera-system'
 import { initializeTilemap } from './core/render/tilemap-util'
 import * as Player from './player/player'
+import * as Friend from './friend/friend'
 import { PlayerMovementSystem } from './player/player-movement-system'
 import * as PlayerWeapon from './player/player-weapon'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
@@ -117,6 +118,7 @@ const initialize = (config) => {
   initializeCamera(state)
   initializeRendering()
   Player.create(state)
+  Friend.create(state)
   PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12)) // Debug
 }
 
