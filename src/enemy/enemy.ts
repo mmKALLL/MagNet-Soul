@@ -62,10 +62,10 @@ const playerBulletRepeller = (game: MyState) => {
           const bulletBody = otherBody
           const distance = Physics.Vector.magnitude(Physics.Vector.sub(enemyBody.position, bulletBody.position))
 
-          if (distance < 100) {
+          if (distance < 30) {
             const repelForce = new Vector(bulletBody.velocity.x, bulletBody.velocity.y)
             .multiplyScalar(-1)
-            .multiplyScalar(0.0003)
+            .multiplyScalar(0.1/distance)
             Physics.Body.applyForce(otherBody, otherBody.position, repelForce)
           }
       }
