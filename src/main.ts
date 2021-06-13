@@ -28,6 +28,7 @@ import testMap from './assets/maps/test-map'
 import { AnimStateMachine, PlayerAnimSystem } from './player/player-anim-system'
 import { bgmAssets } from './assets'
 import { destroy } from './destroy'
+import { PolaritySwitcherAnimSystem } from './polarity/polarity-switcher-anim-system'
 
 // Initialize graphics engine
 
@@ -132,6 +133,7 @@ const systems = [
   TimeToLiveSystem,
   PolaritySystem,
   PlayerAnimSystem,
+  PolaritySwitcherAnimSystem,
 ]
 
 systems.forEach((system) => system.start(gameState))
