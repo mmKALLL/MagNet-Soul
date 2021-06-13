@@ -63,7 +63,7 @@ export const PlayerMovementSystem = System.create<MyState>(
 
     // Reset player on fall
     if (body.position.y > 20 * 16 + 100) {
-      initializeScreen(game.state.currentScreen)
+      game.state.health.set('player', 0)
     }
   }
 )
