@@ -1,4 +1,4 @@
-import { playSound, initializeScreen, MyState, config, advanceStage } from '../main'
+import { playSound, initializeScreen, MyState, config, advanceStage, stageClearCleanup } from '../main'
 import * as System from '../arch/system'
 import Physics from '../core/physics/physics'
 import * as Player from '../player/player'
@@ -13,7 +13,7 @@ export const PlayerMovementSystem = System.create<MyState>(
     const body = game.state.physicsBodies.get(Player.ID)
     const keyboard = game.input.keyboard
 
-    if (!body) {
+    if (!body || stageClearCleanup) {
       return
     }
 
