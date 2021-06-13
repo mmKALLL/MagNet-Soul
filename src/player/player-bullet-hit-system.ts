@@ -18,9 +18,9 @@ export const PlayerBulletHitSytem = System.create<MyState>(
             if (enemyHealth) {
               game.state.health.set(otherId, enemyHealth - 1)
             }
-            destroy(bulletId, game.state)
           }
         }
+        destroy(bulletId, game.state)
     })
   },
   (game, time) => {
