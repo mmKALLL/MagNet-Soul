@@ -47,5 +47,10 @@ export const create = (game: MyState): Entity.ID => {
 
   game.polarity.set(ID, 'positive')
 
+  game.weapon.set(ID, {
+    fireRate: 0.2,
+    lastTimeFired: 0
+  })
+
   return playerId
 }

@@ -3,13 +3,14 @@ import * as System from '../arch/system'
 import * as Keyboard from '../core/input/keyboard'
 import Vector, { Vectors } from '../core/math/vector'
 import * as PlayerBullet from '../player/player-bullet'
+import * as Player from '../player/player'
 
 export const PlayerWeaponSystem = System.create<MyState>(
   () => {},
   (game, time) => {
-    const playerWeapon = game.state.playerWeapon
+    const playerWeapon = game.state.weapon.get(Player.ID)
     const keyboard = game.input.keyboard
-    if (Keyboard.isDown(keyboard, 'z') || Keyboard.isDown(keyboard, ',')) {
+    if (playerWeapon && (Keyboard.isDown(keyboard, 'z') || Keyboard.isDown(keyboard, ','))) {
       if (time.now > playerWeapon.lastTimeFired + playerWeapon.fireRate) {
         playerWeapon.lastTimeFired = time.now
         const playerBody = game.state.physicsBodies.get('player')!
