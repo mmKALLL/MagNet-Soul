@@ -21,7 +21,8 @@ import { EnemyWeaponSystem } from './enemy/enemy-weapon-sytem'
 import { EnemyBulletHitSytem } from './enemy/enemy-bullet-hit-system'
 import { DeathSystem } from './systems/death-system'
 import { loadMap } from './map/map'
-import testMap from './assets/maps/test-map'
+import stage1 from './assets/maps/stage1'
+import stage2 from './assets/maps/stage2'
 import { AnimStateMachine, PlayerAnimSystem } from './player/player-anim-system'
 import { bgmAssets } from './assets'
 import { destroy } from './destroy'
@@ -97,7 +98,7 @@ const state = {
   physicsEngine: engine,
   physicsWorld: world,
   playerAnimState: { current: 'idle', next: 'idle' } as AnimStateMachine,
-  currentScreen: 'stage2' as GameScreen,
+  currentScreen: 'stage1' as GameScreen,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
   physicsBodies: Component.many<Physics.Body & { facing?: -1 | 1 }>(),
@@ -144,17 +145,17 @@ const update = (game: Game.GameState<MyState>, time: Time) => {
 
 export type Config = {
   frameRate: number
-  initialMap: Map
+  maps: { [k: string]: Map }
 }
 const config: Config = {
   frameRate: 40,
-  initialMap: testMap as  any,
+  maps: { stage1, stage2 },
 }
 
 const initializeGame = (config) => {
   initializeMusic()
   initializeRendering()
-  initializeScreen('stage2')
+  initializeScreen('stage1')
 }
 
 export const initializeScreen = (screen: GameScreen) => {
@@ -167,9 +168,9 @@ export const initializeScreen = (screen: GameScreen) => {
   state.health.forEach((id, _) => destroy(id, state))
   state.cameras.forEach((id, _) => destroy(id, state))
 
-  loadMap(state, config.initialMap) // TODO: Load based on screen
+  loadMap(state, config.maps[screen]) // TODO: Load based on screen
   initializeCamera(state)
-  Player.create(state, config.initialMap.startPoint)
+  Player.create(state, config.maps[screen].startPoint)
 }
 
 Game.run(gameState, update, renderFrame, config, initializeGame)

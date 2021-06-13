@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js'
-import TemplateMapData from '../assets/maps/test-map'
+import TemplateMapData from '../assets/maps/stage1'
 import Physics from '../core/physics/physics'
 import { MyState, MyPoint } from '../main'
-import { assets } from '../assets'
+import { mapAssets } from '../assets'
 import { CollisionCategories } from '../collision-categories'
 import * as Enemy from '../enemy/enemy'
 import * as PolaritySwitcher from '../polarity/polarity-switcher'
@@ -13,18 +13,18 @@ type Layer = typeof TemplateMapData.layers[0]
 
 export const loadMap = (state: MyState, map: Map) => {
   map.layers.forEach((layer) => {
+    const asset = mapAssets[`${map.name}-${layer.name}`]
     switch (layer.name) {
       case 'terrain':
         loadTerrainLayer(state, map, layer)
         break
       case 'background':
-        loadBackgroundLayer(state, map, layer, PIXI.Sprite.from(assets.baseBackground1))
+        loadBackgroundLayer(state, map, layer, PIXI.Sprite.from(asset))
         break
       case 'front-parallax':
-        loadParallaxLayer(state, map, layer, PIXI.BaseTexture.from(assets.tileset2))
-        break
+      case 'mid-parallax':
       case 'back-parallax':
-        loadParallaxLayer(state, map, layer, PIXI.BaseTexture.from(assets.tileset3))
+        loadParallaxLayer(state, map, layer, PIXI.BaseTexture.from(asset))
         break
       case 'enemy':
         loadEnemyLayer(state, map, layer)
@@ -134,9 +134,10 @@ const loadEnemyLayer = (state: MyState, map: Map, layer: Layer) => {
 const loadItemLayer = (state: MyState, map: Map, layer: Layer) => {
   if (layer.objects) {
     layer.objects.forEach((object) => {
-      if (object.type.includes('switcher')) {
-        PolaritySwitcher.create(state, new Vector(object.x - 8, object.y - 8))
-      }
+      // if (object.type.includes('switcher')) {
+      // To make map design faster, assume all things in the "item" layer are switchers
+      PolaritySwitcher.create(state, new Vector(object.x - 8, object.y - 8))
+      // }
     })
   }
 }
