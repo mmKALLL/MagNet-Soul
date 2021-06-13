@@ -4,3 +4,4 @@ export type EntityType =
  | 'polarity-switcher'
  | 'friend'
  | 'enemy'
+ | 'enemy-bullet'

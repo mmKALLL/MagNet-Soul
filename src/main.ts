@@ -12,7 +12,7 @@ import * as Player from './player/player'
 import * as Friend from './friend/friend'
 import * as Enemy from './enemy/enemy'
 import { PlayerMovementSystem } from './player/player-movement-system'
-import * as PlayerWeapon from './player/player-weapon'
+import * as PlayerWeapon from './weapon/weapon'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
 import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
@@ -20,6 +20,9 @@ import { Polarity, PolaritySystem } from './polarity/polarity-system'
 import * as PolaritySwitcher from './polarity/polarity-switcher'
 import { EntityType } from './entity-types'
 import { PlayerBulletHitSytem } from './player/player-bullet-hit-system'
+import { Weapon } from './weapon/weapon'
+import { EnemyWeaponSystem } from './enemy/enemy-weapon-sytem'
+import { EnemyBulletHitSytem } from './enemy/enemy-bullet-hit-system'
 
 // Initialize graphics engine
 
@@ -93,7 +96,7 @@ const state = {
   sprites: Component.many<PIXI.Container>(),
   backgrounds: Component.many<{ sprite: PIXI.Container; original_x: number; parallaxX: number }>(),
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
-  playerWeapon: PlayerWeapon.initialState(),
+  weapon: Component.many<Weapon>(),
   ttl: Component.many<TimeToLive>(),
   polarity: Component.many<Polarity>(),
   polarityEffects: Component.many<PIXI.Graphics>(),
@@ -105,24 +108,24 @@ const windowSize = new Vector(window.innerWidth, window.innerHeight)
 
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
 
-GravitySystem.start(gameState)
-PlayerBulletHitSytem.start(gameState)
-PlayerMovementSystem.start(gameState)
-DrawSpritesSystem.start(gameState)
-CameraSystem.start(gameState)
-PlayerWeaponSystem.start(gameState)
-PolaritySystem.start(gameState)
+const systems = [
+  GravitySystem,
+  PlayerBulletHitSytem,
+  EnemyBulletHitSytem,
+  PlayerMovementSystem,
+  DrawSpritesSystem,
+  CameraSystem,
+  PlayerWeaponSystem,
+  EnemyWeaponSystem,
+  TimeToLiveSystem,
+  PolaritySystem,
+]
+
+systems.forEach((system) => system.start(gameState))
 
 // Game loop
 const update = (game: Game.GameState<MyState>, time: Time) => {
-  GravitySystem.update(game, time)
-  PlayerBulletHitSytem.update(game, time)
-  PlayerMovementSystem.update(game, time)
-  DrawSpritesSystem.update(game, time)
-  CameraSystem.update(game, time)
-  PlayerWeaponSystem.update(game, time)
-  TimeToLiveSystem.update(game, time)
-  PolaritySystem.update(game, time)
+  systems.forEach((system) => system.update(game, time))
 }
 
 const config: Game.GameRunConfig = {
@@ -137,7 +140,12 @@ const initialize = (config) => {
 
   // Debug
   PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12))
-  Enemy.create(gameState.state, new Vector(16 * 18, 16 * 16))
+  const neutralEnemy = Enemy.create(gameState.state, new Vector(16 * 18, 16 * 16))
+  const positiveEnemy = Enemy.create(gameState.state, new Vector(16 * 32, 16 * 13))
+  gameState.state.polarity.set(positiveEnemy, 'positive')
+  const negativeEnemy = Enemy.create(gameState.state, new Vector(16 * 22, 16 * 8))
+  gameState.state.polarity.set(negativeEnemy, 'negative')
+
   Friend.create(state)
   Player.create(state)
 }

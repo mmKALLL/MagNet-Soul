@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js'
 import { Entity } from '../arch/arch'
-import { assets } from '../assets'
 import { CollisionCategories } from '../collision-categories'
 import Vector from '../core/math/vector'
 import Physics from '../core/physics/physics'
@@ -26,7 +25,7 @@ export const create = (game: MyState, position: Vector): Entity.ID => {
     isStatic: true,
     collisionFilter: {
       category: CollisionCategories.enemy,
-      mask: CollisionCategories.player | CollisionCategories.level,
+      mask: CollisionCategories.player | CollisionCategories.playerBullet | CollisionCategories.level,
     },
     plugin: {
       attractors: [playerBulletRepeller(game)]
@@ -43,7 +42,12 @@ export const create = (game: MyState, position: Vector): Entity.ID => {
   game.sprites.set(id, graphics)
   game.renderStage.addChild(graphics)
 
-  game.polarity.set(id, 'positive')
+  game.polarity.set(id, 'neutral')
+
+  game.weapon.set(id, {
+    fireRate: 0.4,
+    lastTimeFired: 0
+  })
 
   return id
 }
