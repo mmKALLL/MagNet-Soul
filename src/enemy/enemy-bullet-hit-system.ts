@@ -1,6 +1,6 @@
 import * as System from '../arch/system'
 import { MyState } from '../main'
-import { handleCollisions } from '../collsition-handler'
+import { handleCollisions } from '../collision-handler'
 import { destroy } from '../destroy'
 
 export const EnemyBulletHitSytem = System.create<MyState>(
