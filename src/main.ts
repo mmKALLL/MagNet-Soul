@@ -196,6 +196,8 @@ export const playSound = (...name: string[]) => {
 }
 
 export const initializeScreen = (screen: GameScreen) => {
+  state.currentScreen = screen
+
   destroy('player', state)
   state.physicsBodies.forEach((id, _) => destroy(id, state))
   state.sprites.forEach((id, _) => destroy(id, state))
@@ -205,21 +207,34 @@ export const initializeScreen = (screen: GameScreen) => {
   state.health.forEach((id, _) => destroy(id, state))
   state.cameras.forEach((id, _) => destroy(id, state))
 
+  // カタカタカタカタ
+  state.renderStage.removeChildren()
+  engine.world.bodies = []
+
   loadMap(state, config.maps[screen]) // TODO: Load based on screen
   initializeCamera(state)
   Player.create(state, config.maps[screen].startPoint)
 }
+document.addEventListener('keydown', (e) => {
+  e.key === '9' && advanceStage(state.currentScreen === 'stage1' ? 'stage1' : 'stage2')
+})
 
+export let stageClearCleanup = false
 export const advanceStage = (screen: GameScreen) => {
-  music.forEach((m) => {
-    m.pause()
-    m.currentTime = 0
-  })
-  screen === 'stage1' ? playSound('stageclear') : playSound('gameclear')
-  window.setTimeout(() => {
-    initializeScreen(screen === 'stage1' ? 'stage2' : 'stage1')
-    screen === 'stage1' ? bgm2.play() : bgm1.play()
-  }, 10000)
+  if (!stageClearCleanup) {
+    console.log('advanc')
+    stageClearCleanup = true
+    music.forEach((m) => {
+      m.pause()
+      m.currentTime = 0
+    })
+    screen === 'stage1' ? playSound('stageclear') : playSound('gameclear')
+    window.setTimeout(() => {
+      initializeScreen(screen === 'stage1' ? 'stage2' : 'stage1')
+      screen === 'stage1' ? bgm2.play() : bgm1.play()
+      stageClearCleanup = false
+    }, 8000)
+  }
 }
 
 Game.run(gameState, update, renderFrame, config, initializeGame)
