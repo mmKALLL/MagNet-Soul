@@ -4,7 +4,7 @@ import { assets } from '../assets'
 import { CollisionCategories } from '../collision-categories'
 import Vector, { Vectors } from '../core/math/vector'
 import Physics from '../core/physics/physics'
-import { MyState } from '../main'
+import { MyState, MyPoint } from '../main'
 
 export const ID = 'player'
 export const width = 14
@@ -30,13 +30,13 @@ const sprites = {
   }
 }
 
-export const create = (game: MyState): Entity.ID => {
+export const create = (game: MyState, startPoint: MyPoint): Entity.ID => {
   const playerId = game.entities.create(ID)
   game.entityType.set(ID, 'player')
   game.health.set(ID, 3)
   game.polarity.set(ID, 'positive')
 
-  const body = Physics.Bodies.rectangle(0, 0, width, height, {
+  const body = Physics.Bodies.rectangle(startPoint.x * 16, startPoint.y * 16, width, height, {
     label: ID,
     friction: 0,
     frictionAir: 0.055,
@@ -57,7 +57,6 @@ export const create = (game: MyState): Entity.ID => {
   })
   game.physicsBodies.set(playerId, body)
   Physics.World.addBody(game.physicsWorld, body)
-  Physics.Body.setPosition(body, new Vector(100, 150)) // debug
 
   game.gravity.set(playerId, true)
 
@@ -70,7 +69,7 @@ export const create = (game: MyState): Entity.ID => {
 
   game.weapon.set(ID, {
     fireRate: 0.2,
-    lastTimeFired: 0
+    lastTimeFired: 0,
   })
 
   return playerId

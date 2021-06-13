@@ -10,6 +10,7 @@ import { CameraSystem } from './systems/camera-system'
 import * as Player from './player/player'
 import * as Friend from './friend/friend'
 import * as Enemy from './enemy/enemy'
+import { Map } from './map/map'
 import { PlayerMovementSystem } from './player/player-movement-system'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
@@ -25,6 +26,8 @@ import { DeathSystem } from './systems/death-system'
 import { loadMap } from './map/map'
 import testMap from './assets/maps/test-map'
 import { AnimStateMachine, PlayerAnimSystem } from './player/player-anim-system'
+import { bgmAssets } from './assets'
+import { destroy } from './destroy'
 
 // Initialize graphics engine
 
@@ -57,27 +60,28 @@ const initializeMusic = () => {
   }
 
   const defaultVolume = 0.25
-  const bgm1first = new Audio(require('./assets/audio/BGM1_first.wav'))
-  const bgm1loop = new Audio(require('./assets/audio/BGM1_loop.wav'))
-  const bgm2first = new Audio(require('./assets/audio/BGM2_first.wav'))
-  const bgm2loop = new Audio(require('./assets/audio/BGM2_loop.wav'))
-  const music = [bgm1first, bgm1loop, bgm2first, bgm2loop]
+  const bgm1 = new Audio(bgmAssets.bgm1)
+  const bgm2 = new Audio(bgmAssets.bgm2)
+  const bgm3 = new Audio(bgmAssets.bgm3)
+  const music = [bgm1, bgm2, bgm3]
   music.forEach((m) => {
     m.volume = defaultVolume
   })
-  bgm1first.onended = () => bgm1loop.play()
-  bgm2first.onended = () => bgm2loop.play()
-  addSmoothLoop(bgm1loop)
-  addSmoothLoop(bgm2loop)
+  addSmoothLoop(bgm1, 7.5)
+  addSmoothLoop(bgm2, 8.275)
+  addSmoothLoop(bgm3, 0)
 
   // Set up playing after something has been pressed
   let musicPlaying = false
-  const playMusic = () => bgm2first.play()
-  document.addEventListener('keydown', (e) => {
+  const playMusic = () => {
     if (!musicPlaying) {
-      playMusic()
+      bgm2.play()
       musicPlaying = true
     }
+  }
+  document.addEventListener('mouseup', (e) => playMusic())
+  document.addEventListener('keydown', (e) => {
+    playMusic()
     // Toggle music
     if (e.key === 'm') {
       music.forEach((m) => (m.volume = m.volume === 0 ? defaultVolume : 0))
@@ -87,11 +91,15 @@ const initializeMusic = () => {
 
 // Initial custom state
 
+export type GameScreen = 'stage1' | 'stage2' | 'stage3' | 'bossStage' | 'credits'
+export type MyPoint = { x: number; y: number }
+
 const state = {
   renderStage: stage,
   physicsEngine: engine,
   physicsWorld: world,
   playerAnimState: { current: 'idle', next: 'idle' } as AnimStateMachine,
+  currentScreen: 'title' as GameScreen,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
   physicsBodies: Component.many<Physics.Body & { facing?: -1 | 1 }>(),
@@ -108,9 +116,8 @@ const state = {
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
 
-const windowSize = new Vector(window.innerWidth, window.innerHeight)
-
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
+const windowSize = new Vector(window.innerWidth, window.innerHeight)
 
 const systems = [
   GravitySystem,
@@ -134,17 +141,28 @@ const update = (game: Game.GameState<MyState>, time: Time) => {
   systems.forEach((system) => system.update(game, time))
 }
 
-const config: Game.GameRunConfig = {
+export type Config = {
+  frameRate: number
+  initialMap: Map
+}
+const config: Config = {
   frameRate: 40,
+  initialMap: testMap,
 }
 
-const initialize = (config) => {
+const initializeGame = (config) => {
   initializeMusic()
-  loadMap(state, testMap)
+  loadMap(state, config.initialMap)
   initializeCamera(state)
   initializeRendering()
 
-  Player.create(state)
+  initializeScreen('stage2')
 }
 
-Game.run(gameState, update, renderFrame, config, initialize)
+export const initializeScreen = (screen: GameScreen) => {
+  // Friend.create(state)
+  destroy('player', state)
+  Player.create(state, testMap.startPoint)
+}
+
+Game.run(gameState, update, renderFrame, config, initializeGame)

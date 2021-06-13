@@ -13,7 +13,7 @@
         "./src/**/*"
     ],
     "exclude": [
-        "./src/assets/**/*.tsx"
+        "./src/assets/**/*"
     ],
     "baseUrl": "./src",
     "paths": {

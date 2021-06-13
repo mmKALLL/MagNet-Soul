@@ -1,5 +1,5 @@
-import { Entity } from "./arch/arch"
-import { MyState } from "./main"
+import { Entity } from './arch/arch'
+import { MyState } from './main'
 import Physics from './core/physics/physics'
 
 export const destroy = (id: Entity.ID, game: MyState) => {

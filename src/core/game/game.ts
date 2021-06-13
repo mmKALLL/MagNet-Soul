@@ -1,12 +1,13 @@
 import * as Time from '../time/time'
 import * as Input from '../input/input'
+import { Config } from '../../main'
 
 export const run = <T>(
   state: GameState<T>,
   update: GameStateUpdater<T>,
   render: GameStateRenderer<T>,
-  config: GameRunConfig,
-  initialize: (config: GameRunConfig) => void
+  config: Config,
+  initialize: (config: Config) => void
 ) => {
   let time = Time.getTime()
 
@@ -18,10 +19,6 @@ export const run = <T>(
     render(state, time)
     time = Time.getTime(time)
   }, 1000 / config.frameRate)
-}
-
-export type GameRunConfig = {
-  frameRate: number
 }
 
 export type GameState<T> = {
