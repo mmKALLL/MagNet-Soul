@@ -7,6 +7,18 @@ export const assets = {
   ring46: require('./assets/sprites/icons/Accessories and Armor - Clockwork Raven Studios/16x16/tile046.png'),
   baseBackground1: require('./assets/tiles/html-game-test.png'),
   turretLeft: require('./assets/sprites/turret.png'),
+  hitAnim: [
+    require('./assets/sprites/bullet-hit-anim/sprite_00.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_01.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_02.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_03.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_04.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_05.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_06.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_07.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_08.png'),
+    require('./assets/sprites/bullet-hit-anim/sprite_09.png'),
+  ],
 
   player: {
     positive: {
