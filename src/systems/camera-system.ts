@@ -22,7 +22,10 @@ export const CameraSystem = System.create<MyState>(
         game.state.backgrounds.forEach((id, obj) => {
           const { sprite, original_x, parallaxX } = obj
           if (parallaxX === -1) {
-            sprite.position.x = playerX - x_base
+            // 135くらいが欲しいけど式が合ってないかも
+            const magic_number = x_base / zoom;
+            const maxX = stage_width - (x_base + magic_number)
+            sprite.position.x = clamp(playerX - magic_number, 0, maxX)
           }
         })
       }
