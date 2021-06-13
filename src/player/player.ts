@@ -22,12 +22,12 @@ const playerSpriteFromAsset = (asset: any) => {
 const sprites = {
   positive: {
     idle: playerSpriteFromAsset(assets.player.positive.idle),
-    jump: playerSpriteFromAsset(assets.player.positive.jump)
+    jump: playerSpriteFromAsset(assets.player.positive.jump),
   },
   negative: {
     idle: playerSpriteFromAsset(assets.player.negative.idle),
-    jump: playerSpriteFromAsset(assets.player.negative.jump)
-  }
+    jump: playerSpriteFromAsset(assets.player.negative.jump),
+  },
 }
 
 export const create = (game: MyState, startPoint: MyPoint): Entity.ID => {
@@ -38,6 +38,7 @@ export const create = (game: MyState, startPoint: MyPoint): Entity.ID => {
 
   const body = Physics.Bodies.rectangle(startPoint.x * 16, startPoint.y * 16, width, height, {
     label: ID,
+    slop: 0,
     friction: 0,
     frictionAir: 0.055,
     frictionStatic: 0.5,
@@ -52,8 +53,8 @@ export const create = (game: MyState, startPoint: MyPoint): Entity.ID => {
       mask: ~CollisionCategories.player,
     },
     plugin: {
-      attractors: [enemyBulletRepeller(game)]
-    }
+      attractors: [enemyBulletRepeller(game)],
+    },
   })
   game.physicsBodies.set(playerId, body)
   Physics.World.addBody(game.physicsWorld, body)
@@ -77,22 +78,24 @@ export const create = (game: MyState, startPoint: MyPoint): Entity.ID => {
 
 const enemyBulletRepeller = (game: MyState) => {
   return (playerBody: Physics.Body, otherBody: Physics.Body) => {
-    if ((Physics as any).Detector.canCollide(playerBody.collisionFilter, otherBody.collisionFilter)) {
+    if (
+      (Physics as any).Detector.canCollide(playerBody.collisionFilter, otherBody.collisionFilter)
+    ) {
       if (
         game.entityType.get(otherBody.label) == 'enemy-bullet' &&
         game.polarity.get(otherBody.label) === game.polarity.get(playerBody.label)
       ) {
-          const bulletBody = otherBody
-          const distanceVector = Physics.Vector.sub(playerBody.position, bulletBody.position)
-          const distance = Physics.Vector.magnitude(distanceVector)
+        const bulletBody = otherBody
+        const distanceVector = Physics.Vector.sub(playerBody.position, bulletBody.position)
+        const distance = Physics.Vector.magnitude(distanceVector)
 
-          if (distance < 30) {
-            const repelForce = new Vector(distanceVector.x, distanceVector.y)
-              .normalize()
-              .multiplyScalar(-1)
-              .multiplyScalar(0.02/distance)
-            Physics.Body.applyForce(otherBody, otherBody.position, repelForce)
-          }
+        if (distance < 30) {
+          const repelForce = new Vector(distanceVector.x, distanceVector.y)
+            .normalize()
+            .multiplyScalar(-1)
+            .multiplyScalar(0.02 / distance)
+          Physics.Body.applyForce(otherBody, otherBody.position, repelForce)
+        }
       }
     }
   }
@@ -103,8 +106,12 @@ export const updateSprite = (game: MyState) => {
   const container = game.sprites.get(ID)
 
   container?.removeChildren()
-  if (!container) { return }
-  if (!polarity) { return }
+  if (!container) {
+    return
+  }
+  if (!polarity) {
+    return
+  }
 
   const anim = game.playerAnimState.next
   switch (game.playerAnimState.next) {

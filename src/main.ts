@@ -50,11 +50,10 @@ Physics.Runner.run(runner, engine)
 const initializeMusic = () => {
   const addSmoothLoop = (audio: HTMLAudioElement, startTime?: number) => {
     audio.loop = true
-    audio.addEventListener('timeupdate', function () {
+    addEventListener('timeupdate', () => {
       var buffer = 0.22
-      if (this.currentTime > this.duration - buffer) {
-        this.currentTime = startTime ?? 0
-        this.play()
+      if (audio.currentTime > audio.duration - buffer) {
+        audio.currentTime = startTime ?? 0
       }
     })
   }
@@ -94,7 +93,7 @@ const initializeMusic = () => {
 export type GameScreen = 'stage1' | 'stage2' | 'stage3' | 'bossStage' | 'credits'
 export type MyPoint = { x: number; y: number }
 
-const state = {
+const initialState = () => ({
   renderStage: stage,
   physicsEngine: engine,
   physicsWorld: world,
@@ -112,7 +111,9 @@ const state = {
   polarity: Component.many<Polarity>(),
   polarityEffects: Component.many<PIXI.Graphics>(),
   health: Component.many<number>(),
-}
+})
+
+let state = initialState()
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
 
@@ -161,8 +162,9 @@ const initializeGame = (config) => {
 
 export const initializeScreen = (screen: GameScreen) => {
   // Friend.create(state)
-  destroy('player', state)
-  Player.create(state, testMap.startPoint)
+
+  state = initialState()
+  Player.create(state, config.initialMap.startPoint)
 }
 
 Game.run(gameState, update, renderFrame, config, initializeGame)
