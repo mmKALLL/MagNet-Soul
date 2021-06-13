@@ -23,7 +23,7 @@ export const CameraSystem = System.create<MyState>(
           const { sprite, original_x, parallaxX } = obj
           if (parallaxX === -1) {
             // 135くらいが欲しいけど式が合ってないかも
-            const magic_number = x_base / zoom
+            const magic_number = 135
             const maxX = stage_width - (x_base + magic_number)
             sprite.position.x = clamp(playerX - magic_number, 0, maxX)
           }
