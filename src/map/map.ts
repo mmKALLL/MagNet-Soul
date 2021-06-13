@@ -4,6 +4,8 @@ import Physics from '../core/physics/physics'
 import { MyState } from '../main'
 import { assets } from '../assets'
 import { CollisionCategories } from '../collision-categories'
+import * as Enemy from '../enemy/enemy'
+import Vector from '../core/math/vector'
 
 type Map = typeof TemplateMapData
 type Layer = typeof TemplateMapData.layers[0]
@@ -22,6 +24,9 @@ export const loadMap = (state: MyState, map: Map) => {
         break
       case 'back-parallax':
         loadParallaxLayer(state, map, layer, PIXI.BaseTexture.from(assets.tileset3))
+        break
+      case 'enemy':
+        loadEnemyLayer(state, map, layer)
         break
     }
   })
@@ -72,7 +77,6 @@ const loadBackgroundLayer = (state: MyState, map: Map, layer: Layer, sprite: PIX
   state.backgrounds.set(id, { original_x: 0, parallaxX: 0, sprite })
 }
 
-
 const loadParallaxLayer = (state: MyState, map: Map, layer: Layer, baseTexture: PIXI.BaseTexture) => {
   if (layer.objects) {
     layer.objects.forEach((o) => {
@@ -92,7 +96,33 @@ const loadParallaxLayer = (state: MyState, map: Map, layer: Layer, baseTexture: 
         parallaxX: layer.parallaxx ?? 0,
       }
       state.backgrounds.set(id, background_obj)
-      console.log(o)
+    })
+  }
+}
+
+const loadEnemyLayer = (state: MyState, map: Map, layer: Layer) => {
+  if (layer.objects) {
+    layer.objects.forEach((object) => {
+      const prefix = 'enemy-'
+      if (object.type.includes(prefix)) {
+        const direction = object.type.substr(prefix.length, 1)
+        const polarity = object.type.substr(-1)
+        const enemy = Enemy.create(
+          state,
+          new Vector(
+            object.x - 8,
+            object.y - 8
+          )
+        )
+        switch (polarity) {
+          case 'p':
+            state.polarity.set(enemy, 'positive')
+            break
+          case 'n':
+            state.polarity.set(enemy, 'negative')
+            break
+        }
+      }
     })
   }
 }

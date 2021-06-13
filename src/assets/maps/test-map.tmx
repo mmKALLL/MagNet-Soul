@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="17">
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="21">
  <editorsettings>
   <export target="test-map.js" format="js"/>
  </editorsettings>
@@ -68,4 +68,9 @@
 116,81,116,116,116,116,116,116,116,116,116,116,81,116,116,116,116,116,81,116,116,116,116,116,81,82,0,0,80,81,116,81,116,116,116,116,82,0,0,0,0,0,80,116,116,81,116,116,116,116,81,116,82,0,0,0,0,80,116,81,116,81,116,116,116,116,116,116,116,116,116,116,81,116,116,82,0,0,80,116,116,116,82,0,0,0,0,0,80,81,81,81,81,81,81,81,81,81,81,81
 </data>
  </layer>
+ <objectgroup id="9" name="enemy">
+  <object id="18" type="enemy-l-p" gid="807" x="272" y="176" width="16" height="16"/>
+  <object id="19" type="enemy-l-n" gid="811" x="416" y="112" width="16" height="16"/>
+  <object id="20" type="enemy-l" gid="1073742639" x="512" y="272" width="16" height="16"/>
+ </objectgroup>
 </map>

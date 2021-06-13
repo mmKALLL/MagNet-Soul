@@ -143,11 +143,6 @@ const initialize = (config) => {
 
   // Debug
   PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12))
-  const neutralEnemy = Enemy.create(gameState.state, new Vector(16 * 18, 16 * 16))
-  const positiveEnemy = Enemy.create(gameState.state, new Vector(16 * 32, 16 * 13))
-  gameState.state.polarity.set(positiveEnemy, 'positive')
-  const negativeEnemy = Enemy.create(gameState.state, new Vector(16 * 22, 16 * 8))
-  gameState.state.polarity.set(negativeEnemy, 'negative')
 
   Friend.create(state)
   Player.create(state)

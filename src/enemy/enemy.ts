@@ -47,7 +47,7 @@ export const create = (game: MyState, position: Vector): Entity.ID => {
   game.polarity.set(id, 'neutral')
 
   game.weapon.set(id, {
-    fireRate: 0.4,
+    fireRate: 2,
     lastTimeFired: 0
   })
 
