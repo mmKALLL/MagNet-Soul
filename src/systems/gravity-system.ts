@@ -27,10 +27,10 @@ export const GravitySystem = System.create<MyState>(
 const handleCollisions = (game: GameState<MyState>) => {
   return (collisions: Physics.IEventCollision<Physics.Engine>) => {
     for (const pair of collisions.pairs) {
-      if (pair.bodyA.type == PlayerBullet.bodyType) {
+      if (game.state.entityType.get(pair.bodyA.label) == 'player-bullet') {
         handlePlayerBulletCollisions(game, pair.bodyA)
       }
-      if (pair.bodyB.type == PlayerBullet.bodyType) {
+      if (game.state.entityType.get(pair.bodyB.label) == 'player-bullet') {
         handlePlayerBulletCollisions(game, pair.bodyB)
       }
     }

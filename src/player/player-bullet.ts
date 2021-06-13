@@ -7,15 +7,14 @@ import Vector from '../core/math/vector'
 import { CollisionCategories } from '../collision-categories'
 import * as Player from '../player/player'
 
-export const bodyType = 'player-bullet'
-
 export const create = (state: MyState, position: Vector, direction: Vector): Entity.ID => {
   const bulletId = state.entities.create()
+  state.entityType.set(bulletId, 'player-bullet')
+
   const radius = 2
   const velocity = 0.02
 
   const body = Physics.Bodies.circle(position.x, position.y, radius, {
-    type: bodyType,
     label: bulletId,
     friction: 0,
     frictionAir: 0,

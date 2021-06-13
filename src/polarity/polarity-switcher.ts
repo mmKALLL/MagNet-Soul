@@ -6,16 +6,14 @@ import Vector from '../core/math/vector'
 import Physics from '../core/physics/physics'
 import { MyState } from '../main'
 
-export const bodyType = 'polarity-switcher'
-
 export const create = (game: MyState, position: Vector): Entity.ID => {
   const id = game.entities.create()
+  game.entityType.set(id, 'polarity-switcher')
 
   const width = 16
   const height = 16
 
   const body = Physics.Bodies.rectangle(0, 0, width, height, {
-    type: bodyType,
     label: id,
     mass: 1,
     inverseMass: 1,

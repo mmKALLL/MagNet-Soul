@@ -17,9 +17,9 @@ export const PolaritySystem = System.create<MyState>(
   (game) => {
     handleCollisions(
       game,
-      (body) => body.type == PolaritySwitcher.bodyType,
+      (body) => game.state.entityType.get(body.label) == 'polarity-switcher',
       (polaritySwitcher, other) => {
-        if (other.type == Player.bodyType) {
+        if (game.state.entityType.get(other.label) == 'player') {
           destroy(polaritySwitcher.label, game.state)
           removePolarityEffect(game, Player.ID)
           if (game.state.polarity.get(Player.ID) == 'positive') {

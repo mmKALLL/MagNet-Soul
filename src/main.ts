@@ -16,6 +16,7 @@ import { GravitySystem } from './systems/gravity-system'
 import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
 import { Polarity, PolaritySystem } from './polarity/polarity-system'
 import * as PolaritySwitcher from './polarity/polarity-switcher'
+import { EntityType } from './entity-types'
 
 // Initialize graphics engine
 
@@ -70,6 +71,7 @@ const state = {
   physicsEngine: engine,
   physicsWorld: world,
   entities: Entity.many(),
+  entityType: Component.many<EntityType>(),
   physicsBodies: Component.many<Physics.Body>(),
   gravity: Component.many<boolean>(),
   sprites: Component.many<PIXI.Container>(),

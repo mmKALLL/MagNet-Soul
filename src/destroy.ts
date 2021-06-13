@@ -23,5 +23,6 @@ export const destroy = (id: Entity.ID, game: MyState) => {
   const polarityEffect = game.polarityEffects.get(id)
   polarityEffect && game.renderStage.removeChild(polarityEffect)
 
+  game.entityType.remove(id)
   game.entities.remove(id)
 }
