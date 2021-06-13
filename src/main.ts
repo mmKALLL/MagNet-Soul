@@ -38,6 +38,17 @@ Physics.Runner.run(runner, engine)
 // Initialize music
 
 const initializeMusic = () => {
+  const addSmoothLoop = (audio: HTMLAudioElement, startTime?: number) => {
+    audio.loop = true
+    audio.addEventListener('timeupdate', function () {
+      var buffer = 0.2
+      if (this.currentTime > this.duration - buffer) {
+        this.currentTime = startTime ?? 0
+        this.play()
+      }
+    })
+  }
+
   const defaultVolume = 0.25
   const bgm1first = new Audio(require('./assets/audio/BGM1_first.wav'))
   const bgm1loop = new Audio(require('./assets/audio/BGM1_loop.wav'))
@@ -49,8 +60,8 @@ const initializeMusic = () => {
   })
   bgm1first.onended = () => bgm1loop.play()
   bgm2first.onended = () => bgm2loop.play()
-  bgm1loop.loop = true
-  bgm2loop.loop = true
+  addSmoothLoop(bgm1loop)
+  addSmoothLoop(bgm2loop)
 
   // Set up playing after something has been pressed
   let musicPlaying = false
@@ -78,7 +89,7 @@ const state = {
   physicsBodies: Component.many<Physics.Body>(),
   gravity: Component.many<boolean>(),
   sprites: Component.many<PIXI.Container>(),
-  backgrounds: Component.many<{sprite: PIXI.Container, original_x: number, parallaxX: number}>(),
+  backgrounds: Component.many<{ sprite: PIXI.Container; original_x: number; parallaxX: number }>(),
   cameras: Component.many<{ isActive: boolean; position: PIXI.Rectangle }>(),
   playerWeapon: PlayerWeapon.initialState(),
   ttl: Component.many<TimeToLive>(),
