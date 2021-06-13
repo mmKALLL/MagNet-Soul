@@ -10,7 +10,7 @@ const gravity = new Vector(0, 0.001)
 
 export const GravitySystem = System.create<MyState>(
   (game) => {
-    Physics.Events.on(game.state.physicsEngine, 'collisionStart', handleCollisions(game))
+    // Physics.Events.on(game.state.physicsEngine, 'collisionStart', handleCollisions(game))
   },
   (game, time) => {
     game.state.gravity.forEach((id, affectedByGravity) => {

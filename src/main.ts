@@ -153,9 +153,6 @@ const initializeGame = (config) => {
   initializeCamera(state)
   initializeRendering()
 
-  // Debug
-  PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12))
-
   initializeScreen('stage2')
 }
 

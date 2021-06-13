@@ -5,6 +5,7 @@ import { MyState, MyPoint } from '../main'
 import { assets } from '../assets'
 import { CollisionCategories } from '../collision-categories'
 import * as Enemy from '../enemy/enemy'
+import * as PolaritySwitcher from '../polarity/polarity-switcher'
 import Vector from '../core/math/vector'
 
 export type Map = typeof TemplateMapData & { startPoint: MyPoint }
@@ -27,6 +28,9 @@ export const loadMap = (state: MyState, map: Map) => {
         break
       case 'enemy':
         loadEnemyLayer(state, map, layer)
+        break
+      case 'item':
+        loadItemLayer(state, map, layer)
         break
     }
   })
@@ -57,6 +61,7 @@ const loadTerrainLayer = (state: MyState, map: Map, layer: Layer) => {
     areas.forEach((area) => {
       const { x, y, length } = area
       const body = Physics.Bodies.rectangle((x + length / 2) * 16, y * 16 + 8, length * 16, 16, {
+        label: 'terrain',
         isStatic: true,
         slop: 0,
         friction: 0,
@@ -121,6 +126,22 @@ const loadEnemyLayer = (state: MyState, map: Map, layer: Layer) => {
             state.polarity.set(enemy, 'negative')
             break
         }
+      }
+    })
+  }
+}
+
+const loadItemLayer = (state: MyState, map: Map, layer: Layer) => {
+  if (layer.objects) {
+    layer.objects.forEach((object) => {
+      if (object.type.includes('switcher')) {
+        PolaritySwitcher.create(
+          state,
+          new Vector(
+            object.x - 8,
+            object.y - 8
+          )
+        )
       }
     })
   }
