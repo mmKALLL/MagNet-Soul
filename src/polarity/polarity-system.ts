@@ -73,7 +73,7 @@ export const addPolarityEffect = (
   const polarity = game.state.polarity.get(id)
   const sprite = game.state.sprites.get(id)
   if (polarity && polarity != 'neutral' && sprite) {
-    const radius = sprite.width
+    const radius = Math.abs(sprite.width)
     const polarityEffect = new PIXI.Graphics()
     polarityEffect.beginFill(polarityColor(polarity), 0.5)
     polarityEffect.drawCircle(0, 0, radius)
