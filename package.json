@@ -1,7 +1,7 @@
 {
-    "name": "html-2d-game-core",
+    "name": "magnet-soul",
     "version": "1.0.0",
-    "description": "A basic structure for an HTML 2D game",
+    "description": "Supercharged platformer game made in 48 hours for GMTK game jam 2021 ⚡️",
     "private": true,
     "browser": true,
     "main": "main.js",
@@ -19,7 +19,7 @@
         "type": "git",
         "url": "git@github.com:Lumbi/html-2d-game-core.git"
     },
-    "author": "Gabriel Lumbi",
+    "author": "Mr. Blue, Gabriel Lumbi, Esa Koskinen, Shoko Kondo",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Lumbi/html-2d-game-core/issues"
