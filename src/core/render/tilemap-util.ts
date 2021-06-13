@@ -80,51 +80,42 @@ export const initializeTilemap = (state: MyState) => {
       })
     }
 
-    const layerData = layer.data
-    if (layerData) {
-      // Generate physics bodies for level geometry
-      if (layer.collisions && layer.data) {
-        type Geometry = { x: number; y: number; length: number }
-        let areas = [] as Geometry[]
-        for (let y = 0; y < mapHeight; y++) {
-          const row = layer.data.slice(y * mapWidth, (y + 1) * mapWidth)
-          const newAreas = row.reduce((acc, cur, index) => {
-            if (cur > 0) {
-              // extend the area if previous tile was also a block, otherwise create new one
-              if (row[index - 1] > 0) {
-                acc[acc.length - 1].length += 1
-              } else {
-                acc.push({ x: index, y, length: 1 })
-              }
+    // Generate physics bodies for level geometry
+    if (layer.collisions && layer.data) {
+      type Geometry = { x: number; y: number; length: number }
+      let areas = [] as Geometry[]
+      for (let y = 0; y < mapHeight; y++) {
+        const row = layer.data.slice(y * mapWidth, (y + 1) * mapWidth)
+        const newAreas = row.reduce((acc, cur, index) => {
+          if (cur > 0) {
+            // extend the area if previous tile was also a block, otherwise create new one
+            if (row[index - 1] > 0) {
+              acc[acc.length - 1].length += 1
+            } else {
+              acc.push({ x: index, y, length: 1 })
             }
-            return acc
-          }, [] as Geometry[])
-          areas = areas.concat(newAreas)
-        }
-
-        // Create collisions for the level geometry:
-        areas.forEach((area) => {
-          const id = state.entities.create()
-          const { x, y, length } = area
-          const body = Physics.Bodies.rectangle(
-            (x + length / 2) * 16,
-            y * 16 + 8,
-            length * 16,
-            16,
-            {
-              isStatic: true,
-              slop: 0,
-              friction: 0,
-              frictionAir: 0,
-              collisionFilter: {
-                category: CollisionCategories.level,
-              },
-            }
-          )
-          state.physicsBodies.set(id, body)
-          Physics.World.addBody(state.physicsWorld, body)
-        })
+          }
+          return acc
+        }, [] as Geometry[])
+        areas = areas.concat(newAreas)
       }
+
+      // Create collisions for the level geometry:
+      areas.forEach((area) => {
+        const id = state.entities.create()
+        const { x, y, length } = area
+        const body = Physics.Bodies.rectangle((x + length / 2) * 16, y * 16 + 8, length * 16, 16, {
+          isStatic: true,
+          slop: 0,
+          friction: 0,
+          frictionAir: 0,
+          collisionFilter: {
+            category: CollisionCategories.level,
+          },
+        })
+        state.physicsBodies.set(id, body)
+        Physics.World.addBody(state.physicsWorld, body)
+      })
     }
   })
 

@@ -10,6 +10,7 @@ import { CameraSystem } from './systems/camera-system'
 import { initializeTilemap } from './core/render/tilemap-util'
 import * as Player from './player/player'
 import * as Friend from './friend/friend'
+import * as Enemy from './enemy/enemy'
 import { PlayerMovementSystem } from './player/player-movement-system'
 import * as PlayerWeapon from './player/player-weapon'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
@@ -18,6 +19,7 @@ import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
 import { Polarity, PolaritySystem } from './polarity/polarity-system'
 import * as PolaritySwitcher from './polarity/polarity-switcher'
 import { EntityType } from './entity-types'
+import { PlayerBulletHitSytem } from './player/player-bullet-hit-system'
 
 // Initialize graphics engine
 
@@ -104,6 +106,7 @@ const windowSize = new Vector(window.innerWidth, window.innerHeight)
 // TODO: take window resize into account? https://stackoverflow.com/questions/57160423/make-walls-follow-canvas-edge-matter-js
 
 GravitySystem.start(gameState)
+PlayerBulletHitSytem.start(gameState)
 PlayerMovementSystem.start(gameState)
 DrawSpritesSystem.start(gameState)
 CameraSystem.start(gameState)
@@ -113,6 +116,7 @@ PolaritySystem.start(gameState)
 // Game loop
 const update = (game: Game.GameState<MyState>, time: Time) => {
   GravitySystem.update(game, time)
+  PlayerBulletHitSytem.update(game, time)
   PlayerMovementSystem.update(game, time)
   DrawSpritesSystem.update(game, time)
   CameraSystem.update(game, time)
@@ -130,9 +134,12 @@ const initialize = (config) => {
   initializeTilemap(state)
   initializeCamera(state)
   initializeRendering()
+
+  // Debug
+  PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12))
+  Enemy.create(gameState.state, new Vector(16 * 18, 16 * 16))
   Friend.create(state)
   Player.create(state)
-  PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12)) // Debug
 }
 
 Game.run(gameState, update, renderFrame, config, initialize)

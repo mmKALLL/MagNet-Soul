@@ -3,3 +3,4 @@ export type EntityType =
  | 'player-bullet'
  | 'polarity-switcher'
  | 'friend'
+ | 'enemy'
