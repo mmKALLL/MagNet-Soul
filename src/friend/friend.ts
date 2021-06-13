@@ -27,10 +27,33 @@ export const create = (game: MyState): Entity.ID => {
     inverseMass: 1,
     chamfer: { radius: 4.5, quality: 10 },
     collisionFilter: {
-      category: CollisionCategories.player,
-      mask: ~CollisionCategories.player,
+      category: CollisionCategories.friend,
+      mask: CollisionCategories.player | CollisionCategories.level,
     },
+    plugin: {
+      attractors: [
+        (thisBody: Physics.Body, otherBody: Physics.Body) => {
+          if ((Physics as any).Detector.canCollide(thisBody.collisionFilter, otherBody.collisionFilter)) {
+            if (game.entityType.get(otherBody.label) == 'player') {
+              const displacement = new Vector(
+                (otherBody.position.x - thisBody.position.x),
+                (otherBody.position.y - thisBody.position.y)
+              )
+              const distance = displacement.magnitude()
+              if (distance > 50 && distance < 500) {
+                let force = displacement.normalize().multiplyScalar(0.001)
+                if (game.polarity.get(thisBody.label) == game.polarity.get(otherBody.label)) {
+                  force = force.multiplyScalar(-1)
+                }
+                Physics.Body.applyForce(thisBody, thisBody.position, force)
+              }
+            }
+          }
+        }
+      ]
+    }
   })
+
   game.physicsBodies.set(ID, body)
   Physics.World.addBody(game.physicsWorld, body)
   Physics.Body.setPosition(body, new Vector(50, 150)) // debug

@@ -25,6 +25,8 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
 
 // Initialize physics engine
 
+Physics.use(require('matter-attractors'))
+
 const engine = Physics.Engine.create()
 const world = engine.world
 world.gravity.x = 0
@@ -117,8 +119,8 @@ const initialize = (config) => {
   initializeTilemap(state)
   initializeCamera(state)
   initializeRendering()
-  Player.create(state)
   Friend.create(state)
+  Player.create(state)
   PolaritySwitcher.create(gameState.state, new Vector(16 * 12, 16 * 12)) // Debug
 }
 

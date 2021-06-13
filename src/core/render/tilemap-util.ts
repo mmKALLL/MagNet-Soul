@@ -3,6 +3,7 @@ import mapData from '../../assets/tiles/html-game-test'
 import Physics from '../physics/physics'
 import { MyState } from '../../main'
 import { assets } from '../../assets'
+import { CollisionCategories } from '../../collision-categories'
 
 export type Map = {
   mapWidth: number // in tiles
@@ -94,6 +95,9 @@ export const initializeTilemap = (state: MyState) => {
                 slop: 0,
                 friction: 0,
                 frictionAir: 0,
+                collisionFilter: {
+                  category: CollisionCategories.level
+                }
               }
             )
             state.physicsBodies.set(id, body)

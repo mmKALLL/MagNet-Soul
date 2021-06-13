@@ -26,8 +26,9 @@
     },
     "homepage": "https://github.com/Lumbi/html-2d-game-core",
     "dependencies": {
-        "@types/matter-js": "^0.14.12",
+        "@types/matter-js": "^0.17.1",
         "@types/victor": "^1.1.0",
+        "matter-attractors": "^0.1.6",
         "matter-js": "^0.17.1",
         "pixi.js": "^5.1.3",
         "victor": "^1.1.0"
