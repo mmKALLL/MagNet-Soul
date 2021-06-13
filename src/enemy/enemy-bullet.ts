@@ -10,7 +10,7 @@ export const create = (state: MyState, position: Vector, direction: Vector): Ent
   state.entityType.set(bulletId, 'enemy-bullet')
 
   const radius = 2
-  const velocity = 0.01
+  const velocity = 0.008
 
   const body = Physics.Bodies.circle(position.x, position.y, radius, {
     label: bulletId,
