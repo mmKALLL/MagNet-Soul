@@ -7,10 +7,10 @@ export const DeathSystem = System.create<MyState>(
   (game, time) => {
     game.state.health.forEach((id, health) => {
       if (health <= 0) {
+        destroy(id, game.state)
         if (id == 'player') {
           initializeScreen(game.state.currentScreen)
         }
-        destroy(id, game.state)
       }
     })
   }

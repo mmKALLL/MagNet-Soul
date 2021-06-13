@@ -23,8 +23,9 @@ export const destroy = (id: Entity.ID, state: MyState) => {
   state.polarity.remove(id)
 
   const polarityEffect = state.polarityEffects.get(id)
-
-  polarityEffect && removePolarityEffect(state, id)
+  if (polarityEffect) {
+    removePolarityEffect(state, id)
+  }
 
   state.weapon.remove(id)
 

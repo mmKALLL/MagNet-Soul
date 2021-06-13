@@ -8,15 +8,12 @@ import Vector from './core/math/vector'
 import { DrawSpritesSystem } from './systems/draw-sprites-system'
 import { CameraSystem } from './systems/camera-system'
 import * as Player from './player/player'
-import * as Friend from './friend/friend'
-import * as Enemy from './enemy/enemy'
 import { Map } from './map/map'
 import { PlayerMovementSystem } from './player/player-movement-system'
 import { PlayerWeaponSystem } from './player/player-weapon-system'
 import { GravitySystem } from './systems/gravity-system'
 import { TimeToLive, TimeToLiveSystem } from './systems/ttl-system'
 import { Polarity, PolaritySystem } from './polarity/polarity-system'
-import * as PolaritySwitcher from './polarity/polarity-switcher'
 import { EntityType } from './entity-types'
 import { PlayerBulletHitSytem } from './player/player-bullet-hit-system'
 import { Weapon } from './weapon/weapon'
@@ -148,7 +145,7 @@ export type Config = {
 }
 const config: Config = {
   frameRate: 40,
-  initialMap: testMap,
+  initialMap: testMap as  any,
 }
 
 const initializeGame = (config) => {
