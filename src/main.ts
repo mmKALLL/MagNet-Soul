@@ -43,7 +43,7 @@ const initializeMusic = () => {
   const addSmoothLoop = (audio: HTMLAudioElement, startTime?: number) => {
     audio.loop = true
     audio.addEventListener('timeupdate', function () {
-      var buffer = 0.2
+      var buffer = 0.22
       if (this.currentTime > this.duration - buffer) {
         this.currentTime = startTime ?? 0
         this.play()
@@ -88,7 +88,7 @@ const state = {
   physicsWorld: world,
   entities: Entity.many(),
   entityType: Component.many<EntityType>(),
-  physicsBodies: Component.many<Physics.Body>(),
+  physicsBodies: Component.many<Physics.Body & { facing?: -1 | 1 }>(),
   gravity: Component.many<boolean>(),
   sprites: Component.many<PIXI.Container>(),
   backgrounds: Component.many<{ sprite: PIXI.Container; original_x: number; parallaxX: number }>(),

@@ -16,10 +16,12 @@ export const PlayerMovementSystem = System.create<MyState>(
     let xSpeed = 0
     if (Keyboard.isDown(keyboard, 'a') || Keyboard.isDown(keyboard, 'ArrowLeft')) {
       xSpeed -= speedMultiplier
+      body.facing = -1
     }
 
     if (Keyboard.isDown(keyboard, 'd') || Keyboard.isDown(keyboard, 'ArrowRight')) {
       xSpeed += speedMultiplier
+      body.facing = 1
     }
 
     Physics.Body.setVelocity(body, {

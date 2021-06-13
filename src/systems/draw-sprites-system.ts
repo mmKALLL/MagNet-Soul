@@ -7,6 +7,9 @@ export const DrawSpritesSystem = System.create<MyState>(
     game.state.physicsBodies.forEach((id, body) => {
       const sprite = game.state.sprites.get(id)
       if (sprite) {
+        if (body.facing && Math.sign(sprite.scale.x) !== body.facing) {
+          sprite.scale.x *= -1
+        }
         sprite.position.x = body.position.x
         sprite.position.y = body.position.y
         sprite.rotation = body.angle
