@@ -2,6 +2,7 @@ import { Entity } from './arch/arch'
 import { MyState } from './main'
 import { removePolarityEffect } from './polarity/polarity-system'
 import Physics from './core/physics/physics'
+import { removeHealthBar } from './systems/health-bar-system'
 
 export const destroy = (id: Entity.ID, state: MyState) => {
   state.health.remove(id)
@@ -31,4 +32,10 @@ export const destroy = (id: Entity.ID, state: MyState) => {
 
   state.entityType.remove(id)
   state.entities.remove(id)
+
+  const healthBar = state.healthBar.get(id)
+  if (healthBar) {
+    removeHealthBar(state, healthBar)
+  }
+  state.healthBar.remove(id)
 }

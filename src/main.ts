@@ -26,6 +26,7 @@ import { AnimStateMachine, PlayerAnimSystem } from './player/player-anim-system'
 import { bgmAssets } from './assets'
 import { destroy } from './destroy'
 import { PolaritySwitcherAnimSystem } from './polarity/polarity-switcher-anim-system'
+import { HealthBar, HealthBarSystem } from './systems/health-bar-system'
 
 // Initialize graphics engine
 
@@ -109,6 +110,7 @@ const state = {
   polarity: Component.many<Polarity>(),
   polarityEffects: Component.many<PIXI.Graphics>(),
   health: Component.many<number>(),
+  healthBar: Component.many<HealthBar>(),
 }
 export type MyState = typeof state
 const gameState = Game.create<MyState>(state)
@@ -130,6 +132,7 @@ const systems = [
   PolaritySystem,
   PlayerAnimSystem,
   PolaritySwitcherAnimSystem,
+  HealthBarSystem,
 ]
 
 systems.forEach((system) => system.start(gameState))

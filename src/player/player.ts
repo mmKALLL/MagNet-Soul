@@ -5,10 +5,12 @@ import { CollisionCategories } from '../collision-categories'
 import Vector, { Vectors } from '../core/math/vector'
 import Physics from '../core/physics/physics'
 import { MyState, MyPoint } from '../main'
+import { addHealtBar } from '../systems/health-bar-system'
 
 export const ID = 'player'
 export const width = 14
 export const height = 20
+const maxHealth = 3
 
 const playerSpriteFromAsset = (asset: any) => {
   const s = PIXI.Sprite.from(asset)
@@ -45,7 +47,7 @@ const sprites = {
 export const create = (game: MyState, startPoint: MyPoint): Entity.ID => {
   const playerId = game.entities.create(ID)
   game.entityType.set(ID, 'player')
-  game.health.set(ID, 3)
+  game.health.set(ID, maxHealth)
   game.polarity.set(ID, 'positive')
 
   const body = Physics.Bodies.rectangle(startPoint.x * 16, startPoint.y * 16, width, height, {
@@ -79,6 +81,8 @@ export const create = (game: MyState, startPoint: MyPoint): Entity.ID => {
   game.sprites.set(playerId, container)
   game.renderStage.addChild(container)
   updateSprite(game)
+
+  game.healthBar.set(ID, addHealtBar(game, maxHealth))
 
   game.weapon.set(ID, {
     fireRate: 0.2,
